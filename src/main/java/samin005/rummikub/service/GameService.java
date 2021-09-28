@@ -142,4 +142,12 @@ public class GameService {
         }
         return inHand;
     }
+
+    public Game executeTurn (String command){
+        return new Game();
+    }
+
+    public void placeInHand (Player player, String tiles) {
+
+    }
 }
