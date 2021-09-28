@@ -14,7 +14,8 @@ public class GameService {
     private final int MAX_PLAYERS = 3;
     private final int TOTAL_TILES = 104;
     private final int TILES_PER_PLAYER = 14;
-    private final String GAME_INSTRUCTIONS = "To draw a tile, input command: draw";
+    private final String GAME_INSTRUCTIONS = "To draw a tile, input command: draw\n" +
+            "To play meld from hand, input command: play <tiles with spaces> (for example: play R1 R2 R3)";
     private final Game currentGame;
 
     public GameService() {
@@ -67,7 +68,7 @@ public class GameService {
     private void updateGameStatus() {
         if(currentGame.getTotalPlayers() == MAX_PLAYERS) {
             String status = "Player " + currentGame.getCurrentPlayer() + "'s turn.\n";
-            status += "board: " + currentGame.getBoard().toString() + "\n";
+            status += "board: " + boardInDisplay() + "\n";
             status += "Player " + currentGame.getCurrentPlayer() + "'s tiles: " + currentGame.getPlayerByNumber(currentGame.getCurrentPlayer()).getInHand().toString() + "\n";
             status += "Instructions: \n";
             status += GAME_INSTRUCTIONS;
@@ -82,6 +83,18 @@ public class GameService {
                 currentGame.setStatus((MAX_PLAYERS - currentGame.getTotalPlayers())+ " players yet to join...");
             }
         }
+    }
+
+    private String boardInDisplay() {
+        String result = "\n";
+        ArrayList<ArrayList<String>> board = currentGame.getBoard();
+        for(int i=0; i < board.size(); i++) {
+            String temp = board.get(i).toString();
+            temp = temp.replace("[", "{");
+            temp = temp.replace("]", "}");
+            result += (i+1) +". *" + temp;
+        }
+        return result;
     }
 
     private void distributeTiles() {
@@ -157,6 +170,17 @@ public class GameService {
                 distributeTilesToPlayer(player.getPlayerNo());
                 player.setInHand(sortInHandTiles(player.getInHand()));
                 updateCurrentPlayerNo();
+                updateGameStatus();
+            }
+            else if (command.toLowerCase().startsWith("play")) {
+                ArrayList<ArrayList<String>> board = currentGame.getBoard();
+                String[] commandTiles = command.split(" ");
+                ArrayList<String> melds = new ArrayList<>();
+                for(int i = 1; i < commandTiles.length; i++) {
+                    melds.add(commandTiles[i]);
+                    player.getInHand().remove(commandTiles[i]);
+                }
+                board.add(melds);
                 updateGameStatus();
             }
         }
