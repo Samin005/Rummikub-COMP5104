@@ -14,6 +14,7 @@ public class GameService {
     private final int MAX_PLAYERS = 3;
     private final int TOTAL_TILES = 104;
     private final int TILES_PER_PLAYER = 14;
+    private final String GAME_INSTRUCTIONS = "To draw a tile, input command: draw";
     private final Game currentGame;
 
     public GameService() {
@@ -31,7 +32,6 @@ public class GameService {
                 currentGame.setCurrentPlayer(1);
             }
             currentGame.setTotalPlayers(totalPlayers + 1);
-            updateGameStatus();
             return "Player "+player.getPlayerNo()+" has joined the game.";
         }
         else {
@@ -56,16 +56,23 @@ public class GameService {
     }
 
     public Game startGame() {
-        updateGameStatus();
         if (currentGame.getTotalPlayers() == MAX_PLAYERS) {
             distributeTiles();
+            updateGameStatus();
         }
+        else updateGameStatus();
         return currentGame;
     }
 
     private void updateGameStatus() {
         if(currentGame.getTotalPlayers() == MAX_PLAYERS) {
-            currentGame.setStatus("Starting game...");
+            String status = "Player " + currentGame.getCurrentPlayer() + "'s turn.\n";
+            status += "board: " + currentGame.getBoard().toString() + "\n";
+            status += "Player " + currentGame.getCurrentPlayer() + "'s tiles: " + currentGame.getPlayerByNumber(currentGame.getCurrentPlayer()).getInHand().toString() + "\n";
+            status += "Instructions: \n";
+            status += GAME_INSTRUCTIONS;
+            System.out.println(status);
+            currentGame.setStatus(status);
         }
         else {
             if (currentGame.getTotalPlayers() == MAX_PLAYERS-1){
@@ -79,7 +86,7 @@ public class GameService {
 
     private void distributeTiles() {
         for(Player player : currentGame.getPlayerList()) {
-            for(int i = 0; i < TILES_PER_PLAYER; i++)
+            while(player.getInHand().size() < TILES_PER_PLAYER)
                 distributeTilesToPlayer(player.getPlayerNo());
             player.setInHand(sortInHandTiles(player.getInHand()));
         }
@@ -101,7 +108,7 @@ public class GameService {
         inHand = makeAllTiles2Digits(inHand);
         Collections.sort(inHand);
         inHand = removeAddedDigits(inHand);
-        ArrayList<String> tempInHand = new ArrayList<>(TILES_PER_PLAYER);
+        ArrayList<String> tempInHand = new ArrayList<>();
         for(String tile:inHand){
             if (tile.startsWith("R"))
                 tempInHand.add(tile);
@@ -144,10 +151,32 @@ public class GameService {
     }
 
     public Game executeTurn (String command){
-        return new Game();
+        if(currentGame.getTotalPlayers() == MAX_PLAYERS) {
+            Player player = currentGame.getPlayerByNumber(currentGame.getCurrentPlayer());
+            if (command.equalsIgnoreCase("draw")) {
+                distributeTilesToPlayer(player.getPlayerNo());
+                player.setInHand(sortInHandTiles(player.getInHand()));
+                updateCurrentPlayerNo();
+                updateGameStatus();
+            }
+        }
+        else updateGameStatus();
+        return currentGame;
     }
 
-    public void placeInHand (Player player, String tiles) {
+    public void placeInHand(Player player, String tiles) {
+        String[] tilesToSet = tiles.split(" ");
+        for(String tile: tilesToSet) {
+            player.addTileInHand(tile);
+            currentGame.getTilesRemaining().remove(tile);
+        }
+    }
 
+    private void updateCurrentPlayerNo() {
+        int currentPlayerNo = currentGame.getCurrentPlayer();
+        if (currentPlayerNo == MAX_PLAYERS) {
+            currentGame.setCurrentPlayer(1);
+        }
+        else currentGame.setCurrentPlayer(currentPlayerNo + 1);
     }
 }

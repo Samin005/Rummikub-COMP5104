@@ -1,9 +1,6 @@
 package samin005.rummikub.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import samin005.rummikub.model.Game;
 import samin005.rummikub.service.GameService;
 
@@ -19,12 +16,16 @@ public class GameController {
 
     @GetMapping("/")
     public String welcome() {
-        return "Welcome to game";
+        String response = "Welcome to game";
+        System.out.println(response);
+        return response;
     }
 
     @PostMapping("/join")
     public String joinGame() {
-        return gameService.joinGame();
+        String response = gameService.joinGame();
+        System.out.println(response);
+        return response;
     }
 
     @GetMapping("/get")
@@ -35,6 +36,11 @@ public class GameController {
     @PostMapping("/start")
     public Game startGame() {
         return gameService.startGame();
+    }
+
+    @PostMapping("/play")
+    public Game play(@RequestBody String command) {
+        return gameService.executeTurn(command);
     }
 }
 
