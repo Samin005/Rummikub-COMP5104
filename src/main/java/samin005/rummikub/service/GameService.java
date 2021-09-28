@@ -15,11 +15,15 @@ public class GameService {
     private final int TOTAL_TILES = 104;
     private final int TILES_PER_PLAYER = 14;
     private final String GAME_INSTRUCTIONS = "To draw a tile, input command: draw\n" +
-            "To play meld from hand, input command: play <tiles with spaces> (for example: play R1 R2 R3)";
+            "To play meld from hand, input command: play <tiles with spaces> (for example: play R1 R2 R3)\n" +
+            "To end turn, input command: end\n" +
+            "   --------   ";
     private final Game currentGame;
+    private ArrayList<ArrayList<String>> tempBoardState;
 
     public GameService() {
         this.currentGame = new Game();
+        this.tempBoardState = (ArrayList<ArrayList<String>>) currentGame.getBoard().clone();
     }
 
     public String joinGame() {
@@ -67,11 +71,7 @@ public class GameService {
 
     private void updateGameStatus() {
         if(currentGame.getTotalPlayers() == MAX_PLAYERS) {
-            String status = "Player " + currentGame.getCurrentPlayer() + "'s turn.\n";
-            status += "board: " + boardInDisplay() + "\n";
-            status += "Player " + currentGame.getCurrentPlayer() + "'s tiles: " + currentGame.getPlayerByNumber(currentGame.getCurrentPlayer()).getInHand().toString() + "\n";
-            status += "Instructions: \n";
-            status += GAME_INSTRUCTIONS;
+            String status = addGameInfoAndInstructions();
             System.out.println(status);
             currentGame.setStatus(status);
         }
@@ -92,9 +92,22 @@ public class GameService {
             String temp = board.get(i).toString();
             temp = temp.replace("[", "{");
             temp = temp.replace("]", "}");
-            result += (i+1) +". *" + temp;
+            result += (i+1) + ". ";
+            if(i >= tempBoardState.size()) {
+                result += "*" + temp + "\n";
+            }
+            else result += temp + "\n";
         }
         return result;
+    }
+
+    private String addGameInfoAndInstructions() {
+        String status = "Player " + currentGame.getCurrentPlayer() + "'s turn.\n";
+        status += "board: " + boardInDisplay() + "\n";
+        status += "Player " + currentGame.getCurrentPlayer() + "'s tiles: " + currentGame.getPlayerByNumber(currentGame.getCurrentPlayer()).getInHand().toString() + "\n";
+        status += "Instructions: \n";
+        status += GAME_INSTRUCTIONS;
+        return status;
     }
 
     private void distributeTiles() {
@@ -171,6 +184,7 @@ public class GameService {
                 player.setInHand(sortInHandTiles(player.getInHand()));
                 updateCurrentPlayerNo();
                 updateGameStatus();
+                tempBoardState = (ArrayList<ArrayList<String>>) currentGame.getBoard().clone();
             }
             else if (command.toLowerCase().startsWith("play")) {
                 ArrayList<ArrayList<String>> board = currentGame.getBoard();
@@ -183,6 +197,13 @@ public class GameService {
                 board.add(melds);
                 updateGameStatus();
             }
+            else if (command.equalsIgnoreCase("end")) {
+                updateCurrentPlayerNo();
+                updateGameStatus();
+
+                tempBoardState = (ArrayList<ArrayList<String>>) currentGame.getBoard().clone();
+            }
+            else currentGame.setStatus("INVALID MOVE \n" + addGameInfoAndInstructions());
         }
         else updateGameStatus();
         return currentGame;
