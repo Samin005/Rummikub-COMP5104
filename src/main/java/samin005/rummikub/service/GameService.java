@@ -14,8 +14,8 @@ public class GameService {
     private final int MAX_PLAYERS = 3;
     private final int TOTAL_TILES = 104;
     private final int TILES_PER_PLAYER = 14;
-    private final String GAME_INSTRUCTIONS = "To draw a tile, input command: draw\n" +
-            "To play meld from hand, input command: play <tiles with spaces> (for example: play R1 R2 R3)\n" +
+    private final String GAME_INSTRUCTIONS = "-To draw a tile, input command: draw\n" +
+            "-To play meld from hand, input command: play <tiles with spaces> (for example: play R1 R2 R3)\n" +
             "To end turn, input command: end\n" +
             "   --------   ";
     private final Game currentGame;
@@ -92,6 +92,7 @@ public class GameService {
             String temp = board.get(i).toString();
             temp = temp.replace("[", "{");
             temp = temp.replace("]", "}");
+            temp = temp.replaceAll(",", "");
             result += (i+1) + ". ";
             if(i >= tempBoardState.size()) {
                 result += "*" + temp + "\n";
@@ -188,14 +189,34 @@ public class GameService {
             }
             else if (command.toLowerCase().startsWith("play")) {
                 ArrayList<ArrayList<String>> board = currentGame.getBoard();
-                String[] commandTiles = command.split(" ");
-                ArrayList<String> melds = new ArrayList<>();
-                for(int i = 1; i < commandTiles.length; i++) {
-                    melds.add(commandTiles[i]);
-                    player.getInHand().remove(commandTiles[i]);
+                String[] commandTiles = command.split(" ", 2);
+                String[] tiles = commandTiles[1].split(" ");
+                if(player.isInitialTurn()) {
+                    if(getMeldScore(tiles) >= 30){
+                        ArrayList<String> melds = new ArrayList<>();
+                        for(String tile: tiles) {
+                            melds.add(tile);
+                            player.getInHand().remove(tile);
+                        }
+                        board.add(melds);
+                        player.setInitialTurn(false);
+                        updateGameStatus();
+                    }
+                    else {
+                        currentGame.setStatus("You must score at least 30 in your initial turn \n" + addGameInfoAndInstructions());
+                        System.out.println(currentGame.getStatus());
+                    }
                 }
-                board.add(melds);
-                updateGameStatus();
+                else {
+                    ArrayList<String> melds = new ArrayList<>();
+                    for(String tile: tiles) {
+                        melds.add(tile);
+                        player.getInHand().remove(tile);
+                    }
+                    board.add(melds);
+                    player.setInitialTurn(false);
+                    updateGameStatus();
+                }
             }
             else if (command.equalsIgnoreCase("end")) {
                 updateCurrentPlayerNo();
@@ -203,10 +224,32 @@ public class GameService {
 
                 tempBoardState = (ArrayList<ArrayList<String>>) currentGame.getBoard().clone();
             }
-            else currentGame.setStatus("INVALID MOVE \n" + addGameInfoAndInstructions());
+            else {
+                currentGame.setStatus("INVALID MOVE \n" + addGameInfoAndInstructions());
+                System.out.println(currentGame.getStatus());
+            }
         }
         else updateGameStatus();
         return currentGame;
+    }
+
+    private int getMeldScore(String[] meld) {
+        int score = 0;
+        for(String tile: meld) {
+            score += getTileScore(tile);
+        }
+        return score;
+    }
+
+    private int getTileScore(String tile) {
+        int score;
+        String[] tileSeparated = tile.split("", 2);
+        int tileNumber = Integer.parseInt(tileSeparated[1]);
+        if(tileNumber >= 10){
+            score = 10;
+        }
+        else score = tileNumber;
+        return score;
     }
 
     public void placeInHand(Player player, String tiles) {

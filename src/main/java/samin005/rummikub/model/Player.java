@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Player {
     private int playerNo;
     private ArrayList<String> inHand = new ArrayList<>();
+    private boolean isInitialTurn = true;
 
     public int getPlayerNo() {
         return playerNo;
@@ -24,5 +25,13 @@ public class Player {
 
     public void setInHand(ArrayList<String> inHand) {
         this.inHand = inHand;
+    }
+
+    public boolean isInitialTurn() {
+        return isInitialTurn;
+    }
+
+    public void setInitialTurn(boolean initialTurn) {
+        isInitialTurn = initialTurn;
     }
 }
