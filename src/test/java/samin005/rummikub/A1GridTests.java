@@ -108,4 +108,180 @@ public class A1GridTests {
         // player 1 ends turn
         gameService.executeTurn("end");
     }
+
+    @Test
+    public void row51Tests() {
+        // Creating a new Game
+        GameService gameService = new GameService();
+        // player 1 joins
+        gameService.joinGame();
+        // player 2 joins
+        gameService.joinGame();
+        // player 3 joins
+        gameService.joinGame();
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+        Player player2 = currentGame.getPlayerByNumber(2);
+        Player player3 = currentGame.getPlayerByNumber(3);
+
+        // setting the tiles players are supposed to play
+        gameService.placeInHand(player1, "R11 R12 R13");
+        
+        // distributing tiles randomly so every player has 14 tiles and no tile can be reused
+        gameService.startGame();
+
+        // ensuring each player has 14 tiles and the remaining tiles are 62
+        assertEquals(14, player1.getInHand().size());
+        assertEquals(14, player2.getInHand().size());
+        assertEquals(14, player3.getInHand().size());
+        assertEquals(62, currentGame.getTilesRemaining().size());
+
+        // ensuring current player is player 1
+        assertEquals(1, currentGame.getCurrentPlayer());
+        // ensuring the board does not contain the meld R11 R12 R13
+        assertFalse(currentGame.getBoard().toString().contains("R11, R12, R13"));
+        // player 1 playing the meld R11 R12 R13
+        gameService.executeTurn("play R11 R12 R13");
+        // ensuring player 1 does not have R11 R12 R13 anymore
+        assertFalse(player1.getInHand().toString().contains("R11, R12, R13"));
+        // ensuring the board contains the meld R11 R12 R13 now
+        assertTrue(currentGame.getBoard().toString().contains("R11, R12, R13"));
+        // as a new meld has been added to board, it's size should increase from 0 to 1
+        assertEquals(1, currentGame.getBoard().size());
+        // player 1 ends turn
+        gameService.executeTurn("end");
+    }
+
+    @Test
+    public void row52Tests() {
+        // Creating a new Game
+        GameService gameService = new GameService();
+        // player 1 joins
+        gameService.joinGame();
+        // player 2 joins
+        gameService.joinGame();
+        // player 3 joins
+        gameService.joinGame();
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+        Player player2 = currentGame.getPlayerByNumber(2);
+        Player player3 = currentGame.getPlayerByNumber(3);
+
+        // setting the tiles players are supposed to play
+        gameService.placeInHand(player1, "R12 G12 B12");
+
+        // distributing tiles randomly so every player has 14 tiles and no tile can be reused
+        gameService.startGame();
+
+        // ensuring each player has 14 tiles and the remaining tiles are 62
+        assertEquals(14, player1.getInHand().size());
+        assertEquals(14, player2.getInHand().size());
+        assertEquals(14, player3.getInHand().size());
+        assertEquals(62, currentGame.getTilesRemaining().size());
+
+        // ensuring current player is player 1
+        assertEquals(1, currentGame.getCurrentPlayer());
+        // ensuring the board does not contain the meld R12 G12 B12
+        assertFalse(currentGame.getBoard().toString().contains("R12, G12, B12"));
+        // player 1 playing the meld R12 G12 B12
+        gameService.executeTurn("play R12 G12 B12");
+        // ensuring player 1 does not have R12 G12 B12 anymore
+        assertFalse(player1.getInHand().toString().contains("R12, G12, B12"));
+        // ensuring the board contains the meld R12 G12 B12 now
+        assertTrue(currentGame.getBoard().toString().contains("R12, G12, B12"));
+        // as a new meld has been added to board, it's size should increase from 0 to 1
+        assertEquals(1, currentGame.getBoard().size());
+        // player 1 ends turn
+        gameService.executeTurn("end");
+    }
+
+    @Test
+    public void row53Tests() {
+        // Creating a new Game
+        GameService gameService = new GameService();
+        // player 1 joins
+        gameService.joinGame();
+        // player 2 joins
+        gameService.joinGame();
+        // player 3 joins
+        gameService.joinGame();
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+        Player player2 = currentGame.getPlayerByNumber(2);
+        Player player3 = currentGame.getPlayerByNumber(3);
+
+        // setting the tiles players are supposed to play
+        gameService.placeInHand(player1, "R9 R10 R11 R12 R13");
+
+        // distributing tiles randomly so every player has 14 tiles and no tile can be reused
+        gameService.startGame();
+
+        // ensuring each player has 14 tiles and the remaining tiles are 62
+        assertEquals(14, player1.getInHand().size());
+        assertEquals(14, player2.getInHand().size());
+        assertEquals(14, player3.getInHand().size());
+        assertEquals(62, currentGame.getTilesRemaining().size());
+
+        // ensuring current player is player 1
+        assertEquals(1, currentGame.getCurrentPlayer());
+        // ensuring the board does not contain the meld R9 R10 R11 R12 R13
+        assertFalse(currentGame.getBoard().toString().contains("R9, R10, R11, R12, R13"));
+        // player 1 playing the meld R9 R10 R11 R12 R13
+        gameService.executeTurn("play R9 R10 R11 R12 R13");
+        // ensuring player 1 does not have R9 R10 R11 R12 R13 anymore
+        assertFalse(player1.getInHand().toString().contains("R9, R10, R11, R12, R13"));
+        // ensuring the board contains the meld R9 R10 R11 R12 R13 now
+        assertTrue(currentGame.getBoard().toString().contains("R9, R10, R11, R12, R13"));
+        // as a new meld has been added to board, it's size should increase from 0 to 1
+        assertEquals(1, currentGame.getBoard().size());
+        // player 1 ends turn
+        gameService.executeTurn("end");
+    }
+
+    @Test
+    public void row54Tests() {
+        // Creating a new Game
+        GameService gameService = new GameService();
+        // player 1 joins
+        gameService.joinGame();
+        // player 2 joins
+        gameService.joinGame();
+        // player 3 joins
+        gameService.joinGame();
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+        Player player2 = currentGame.getPlayerByNumber(2);
+        Player player3 = currentGame.getPlayerByNumber(3);
+
+        // setting the tiles players are supposed to play
+        gameService.placeInHand(player1, "R13 G13 B13 O13");
+
+        // distributing tiles randomly so every player has 14 tiles and no tile can be reused
+        gameService.startGame();
+
+        // ensuring each player has 14 tiles and the remaining tiles are 62
+        assertEquals(14, player1.getInHand().size());
+        assertEquals(14, player2.getInHand().size());
+        assertEquals(14, player3.getInHand().size());
+        assertEquals(62, currentGame.getTilesRemaining().size());
+
+        // ensuring current player is player 1
+        assertEquals(1, currentGame.getCurrentPlayer());
+        // ensuring the board does not contain the meld R13 G13 B13 O13
+        assertFalse(currentGame.getBoard().toString().contains("R13, G13, B13, O13"));
+        // player 1 playing the meld R13 G13 B13 O13
+        gameService.executeTurn("play R13 G13 B13 O13");
+        // ensuring player 1 does not have R13 G13 B13 O13 anymore
+        assertFalse(player1.getInHand().toString().contains("R13, G13, B13, O13"));
+        // ensuring the board contains the meld R13 G13 B13 O13 now
+        assertTrue(currentGame.getBoard().toString().contains("R13, G13, B13, O13"));
+        // as a new meld has been added to board, it's size should increase from 0 to 1
+        assertEquals(1, currentGame.getBoard().size());
+        // player 1 ends turn
+        gameService.executeTurn("end");
+    }
 }
