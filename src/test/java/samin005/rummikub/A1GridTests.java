@@ -62,5 +62,50 @@ public class A1GridTests {
         assertTrue(currentGame.getBoard().toString().contains("R11, R12, R13"));
         // as a new meld has been added to board, it's size should increase from 0 to 1
         assertEquals(1, currentGame.getBoard().size());
+
+        // player 2 ends turn
+        gameService.executeTurn("end");
+        // ensuring current player is player 3
+        assertEquals(3, currentGame.getCurrentPlayer());
+        // ensuring the board does not contain the meld R13 B13 G13
+        assertFalse(currentGame.getBoard().toString().contains("R13, B13, G13"));
+        // player 3 playing the meld R13 B13 G13
+        gameService.executeTurn("play R13 B13 G13");
+        // ensuring player 3 does not have R13 B13 G13 anymore
+        assertFalse(player3.getInHand().toString().contains("R13, B13, G13"));
+        // ensuring the board contains the meld R13 B13 G13 now
+        assertTrue(currentGame.getBoard().toString().contains("R13, B13, G13"));
+        // as a new meld has been added to board, it's size should increase from 1 to 2
+        assertEquals(2, currentGame.getBoard().size());
+
+        // ensuring current player is still player 3
+        assertEquals(3, currentGame.getCurrentPlayer());
+        // ensuring the board does not contain the meld G2 R2 O2
+        assertFalse(currentGame.getBoard().toString().contains("G2, R2, O2"));
+        // player 3 playing the meld G2 R2 O2
+        gameService.executeTurn("play G2 R2 O2");
+        // ensuring player 3 does not have G2 R2 O2 anymore
+        assertFalse(player3.getInHand().toString().contains("G2, R2, O2"));
+        // ensuring the board contains the meld G2 R2 O2 now
+        assertTrue(currentGame.getBoard().toString().contains("G2, R2, O2"));
+        // as a new meld has been added to board, it's size should increase from 2 to 3
+        assertEquals(3, currentGame.getBoard().size());
+        // player 3 ends turn
+        gameService.executeTurn("end");
+
+        // ensuring current player is player 1
+        assertEquals(1, currentGame.getCurrentPlayer());
+        // ensuring the board does not contain the meld R12 B12 O12
+        assertFalse(currentGame.getBoard().toString().contains("R12, B12, O12"));
+        // player 1 playing the meld R12 B12 O12
+        gameService.executeTurn("play R12 B12 O12");
+        // ensuring player 1 does not have R12 B12 O12 anymore
+        assertFalse(player1.getInHand().toString().contains("R12, B12, O12"));
+        // ensuring the board contains the meld R12 B12 O12 now
+        assertTrue(currentGame.getBoard().toString().contains("R12, B12, O12"));
+        // as a new meld has been added to board, it's size should increase from 3 to 4
+        assertEquals(4, currentGame.getBoard().size());
+        // player 1 ends turn
+        gameService.executeTurn("end");
     }
 }
