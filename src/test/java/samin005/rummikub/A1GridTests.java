@@ -1326,4 +1326,149 @@ public class A1GridTests {
         // ensuring board is empty
         assertEquals(0, currentGame.getBoard().size());
     }
+
+    @Test
+    public void row82Tests() {
+        // Creating a new Game
+        GameService gameService = new GameService();
+        // player 1 joins
+        gameService.joinGame();
+        // player 2 joins
+        gameService.joinGame();
+        // player 3 joins
+        gameService.joinGame();
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+        Player player2 = currentGame.getPlayerByNumber(2);
+        Player player3 = currentGame.getPlayerByNumber(3);
+
+        // setting the tiles players are supposed to play
+        gameService.placeInHand(player1, "G1 G2 O2 R3 B3 B3 R5 B6 O7 R9 R10 B11 B12 B13");
+        gameService.placeInHand(player2, "R2 B2 G2 O2 G3 G4 G6 G7 O4 O5 O6 O7 O8 O9");
+        gameService.placeInHand(player3, "R4 O6 B6 B7 R7 G8 R10 R11 R12 R13 B10 B11 B12 B13");
+
+        // distributing tiles randomly so every player has 14 tiles and no tile can be reused
+        gameService.startGame();
+        System.out.println(currentGame.getTilesRemaining());
+
+        // ensuring each player has 14 tiles and the remaining tiles are 62
+        assertEquals(14, player1.getInHand().size());
+        assertEquals(14, player2.getInHand().size());
+        assertEquals(14, player3.getInHand().size());
+        assertEquals(62, currentGame.getTilesRemaining().size());
+
+        // ensuring current player is player 1
+        assertEquals(1, currentGame.getCurrentPlayer());
+        // player 1 draws R2
+        gameService.drawSpecificTile(player1, "R2");
+        // ensuring player 1 has 15 tiles and the remaining tiles are 61
+        assertEquals(15, player1.getInHand().size());
+        assertEquals(61, currentGame.getTilesRemaining().size());
+        // ensuring board is empty
+        assertEquals(0, currentGame.getBoard().size());
+        // player 1 ends turn
+        gameService.executeTurn("end");
+
+        // ensuring current player is player 2
+        assertEquals(2, currentGame.getCurrentPlayer());
+        // player 2 draws G5
+        gameService.drawSpecificTile(player2, "G5");
+        // ensuring player 2 has 15 tiles and the remaining tiles are 60
+        assertEquals(15, player1.getInHand().size());
+        assertEquals(60, currentGame.getTilesRemaining().size());
+        // ensuring board is empty
+        assertEquals(0, currentGame.getBoard().size());
+        // player 2 ends turn
+        gameService.executeTurn("end");
+
+        // ensuring current player is player 3
+        assertEquals(3, currentGame.getCurrentPlayer());
+        // ensuring the board does not contain the meld R10 R11 R12 R13
+        assertFalse(currentGame.getBoard().toString().contains("R10, R11, R12, R13"));
+        // player 3 playing the meld R10 R11 R12 R13
+        gameService.executeTurn("play R10 R11 R12 R13");
+        // ensuring player 3 does not have R10 R11 R12 R13 anymore
+        assertFalse(gameService.existsInHand(player3, "R10, R11, R12, R13".split(" ")));
+        // ensuring the board contains the meld R10 R11 R12 R13 now
+        assertTrue(currentGame.getBoard().toString().contains("R10, R11, R12, R13"));
+        // as a new meld has been added to board, it's size should increase from 0 to 1
+        assertEquals(1, currentGame.getBoard().size());
+
+        // ensuring current player is still player 3
+        assertEquals(3, currentGame.getCurrentPlayer());
+        // ensuring the board does not contain the meld B10 B11 B12 B13
+        assertFalse(currentGame.getBoard().toString().contains("B10, B11, B12, B13"));
+        // player 3 playing the meld B10 B11 B12 B13
+        gameService.executeTurn("play B10 B11 B12 B13");
+        // ensuring player 3 does not have B10 B11 B12 B13 anymore
+        assertFalse(gameService.existsInHand(player3, "B10, B11, B12, B13".split(" ")));
+        // ensuring the board contains the meld B10 B11 B12 B13 now
+        assertTrue(currentGame.getBoard().toString().contains("B10, B11, B12, B13"));
+        // as a new meld has been added to board, it's size should increase from 1 to 2
+        assertEquals(2, currentGame.getBoard().size());
+        // player 3 ends turn
+        gameService.executeTurn("end");
+
+        // ensuring current player is player 1
+        assertEquals(1, currentGame.getCurrentPlayer());
+        // ensuring the board does not contain the meld G2 O2 R2
+        assertFalse(currentGame.getBoard().toString().contains("G2, O2, R2"));
+        // player 1 playing the meld G2 O2 R2
+        gameService.executeTurn("play G2 O2 R2");
+        // ensuring player 1 does not have G2 O2 R2 anymore
+        assertFalse(gameService.existsInHand(player1, "G2 O2 R2".split(" ")));
+        // ensuring the board contains the meld G2 O2 R2 now
+        assertTrue(currentGame.getBoard().toString().contains("G2, O2, R2"));
+        // as a new meld has been added to board, it's size should increase from 2 to 3
+        assertEquals(3, currentGame.getBoard().size());
+
+        // ensuring current player is still player 1
+        assertEquals(1, currentGame.getCurrentPlayer());
+        // player 1 playing the meld B11 B12 B13
+        gameService.executeTurn("play B11 B12 B13");
+        // ensuring player 1 does not have B11 B12 B13 anymore
+        assertFalse(gameService.existsInHand(player1, "B11 B12 B13".split(" ")));
+        // ensuring the board contains the meld B11 B12 B13 now
+        assertTrue(currentGame.getBoard().toString().contains("B11, B12, B13"));
+        // as a new meld has been added to board, it's size should increase from 3 to 4
+        assertEquals(4, currentGame.getBoard().size());
+        // player 1 ends turn
+        gameService.executeTurn("end");
+
+        // ensuring current player is player 2
+        assertEquals(2, currentGame.getCurrentPlayer());
+        // player 2 playing the meld R2 B2 G2 O2
+        gameService.executeTurn("play R2 B2 G2 O2");
+        // ensuring player 2 does not have R2 B2 G2 O2 anymore
+        assertFalse(gameService.existsInHand(player2, "R2 B2 G2 O2".split(" ")));
+        // ensuring the board contains the meld R2 B2 G2 O2 now
+        assertTrue(currentGame.getBoard().toString().contains("R2, B2, G2, O2"));
+        // as a new meld has been added to board, it's size should increase from 4 to 5
+        assertEquals(5, currentGame.getBoard().size());
+
+        // ensuring current player is still player 2
+        assertEquals(2, currentGame.getCurrentPlayer());
+        // player 2 playing the meld G3 G4 G5 G6 G7
+        gameService.executeTurn("play G3 G4 G5 G6 G7");
+        // ensuring player 2 does not have G3 G4 G5 G6 G7 anymore
+        assertFalse(gameService.existsInHand(player2, "G3 G4 G5 G6 G7".split(" ")));
+        // ensuring the board contains the meld G3 G4 G5 G6 G7 now
+        assertTrue(currentGame.getBoard().toString().contains("G3, G4, G5, G6, G7"));
+        // as a new meld has been added to board, it's size should increase from 5 to 6
+        assertEquals(6, currentGame.getBoard().size());
+
+        // ensuring current player is still player 2
+        assertEquals(2, currentGame.getCurrentPlayer());
+        // player 2 playing the meld O4 O5 O6 O7 O8 O9
+        gameService.executeTurn("play O4 O5 O6 O7 O8 O9");
+        // ensuring player 2 does not have O4 O5 O6 O7 O8 O9 anymore
+        assertFalse(gameService.existsInHand(player2, "O4 O5 O6 O7 O8 O9".split(" ")));
+        // ensuring the board contains the meld O4 O5 O6 O7 O8 O9 now
+        assertTrue(currentGame.getBoard().toString().contains("O4, O5, O6, O7, O8, O9"));
+        // as a new meld has been added to board, it's size should increase from 6 to 7
+        assertEquals(7, currentGame.getBoard().size());
+        // player 2 ends turn
+        gameService.executeTurn("end");
+    }
 }

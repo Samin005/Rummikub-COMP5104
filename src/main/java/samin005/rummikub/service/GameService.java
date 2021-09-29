@@ -353,6 +353,9 @@ public class GameService {
         }
     }
 
+    public void drawSpecificTile(Player player, String tile) {
+    }
+
     private void updateCurrentPlayerNo() {
         int currentPlayerNo = currentGame.getCurrentPlayer();
         if (currentPlayerNo == MAX_PLAYERS) {
