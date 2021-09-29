@@ -1252,4 +1252,78 @@ public class A1GridTests {
         // player 1 ends turn
         gameService.executeTurn("end");
     }
+
+    @Test
+    public void row72Tests() {
+        // Creating a new Game
+        GameService gameService = new GameService();
+        // player 1 joins
+        gameService.joinGame();
+        // player 2 joins
+        gameService.joinGame();
+        // player 3 joins
+        gameService.joinGame();
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+        Player player2 = currentGame.getPlayerByNumber(2);
+        Player player3 = currentGame.getPlayerByNumber(3);
+
+        // setting the tiles players are supposed to play
+        gameService.placeInHand(player1, "G2 R2 O2 G3 R3 O3 O8 O9 O10 R8 R9 R10 G12 R7");
+
+        // distributing tiles randomly so every player has 14 tiles and no tile can be reused
+        gameService.startGame();
+
+        // ensuring each player has 14 tiles and the remaining tiles are 62
+        assertEquals(14, player1.getInHand().size());
+        assertEquals(14, player2.getInHand().size());
+        assertEquals(14, player3.getInHand().size());
+        assertEquals(62, currentGame.getTilesRemaining().size());
+
+        // player 1 draws
+        gameService.executeTurn("draw");
+        // ensuring player 1 has 15 tiles and the remaining tiles are 61
+        assertEquals(15, player1.getInHand().size());
+        assertEquals(61, currentGame.getTilesRemaining().size());
+        // ensuring board is empty
+        assertEquals(0, currentGame.getBoard().size());
+    }
+
+    @Test
+    public void row73Tests() {
+        // Creating a new Game
+        GameService gameService = new GameService();
+        // player 1 joins
+        gameService.joinGame();
+        // player 2 joins
+        gameService.joinGame();
+        // player 3 joins
+        gameService.joinGame();
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+        Player player2 = currentGame.getPlayerByNumber(2);
+        Player player3 = currentGame.getPlayerByNumber(3);
+
+        // setting the tiles players are supposed to play
+        gameService.placeInHand(player1, "G2 G2 O2 R3 B3 B3 R5 B6 O7 R9 R10 G11 B12 B13");
+
+        // distributing tiles randomly so every player has 14 tiles and no tile can be reused
+        gameService.startGame();
+
+        // ensuring each player has 14 tiles and the remaining tiles are 62
+        assertEquals(14, player1.getInHand().size());
+        assertEquals(14, player2.getInHand().size());
+        assertEquals(14, player3.getInHand().size());
+        assertEquals(62, currentGame.getTilesRemaining().size());
+
+        // player 1 draws
+        gameService.executeTurn("draw");
+        // ensuring player 1 has 15 tiles and the remaining tiles are 61
+        assertEquals(15, player1.getInHand().size());
+        assertEquals(61, currentGame.getTilesRemaining().size());
+        // ensuring board is empty
+        assertEquals(0, currentGame.getBoard().size());
+    }
 }
