@@ -17,13 +17,15 @@ public class GameService {
     private final String GAME_INSTRUCTIONS = "-To draw a tile, input command: draw\n" +
             "-To play meld from hand, input command: play <tiles with spaces> (for example: play R1 R2 R3)\n" +
             "To end turn, input command: end\n" +
-            "   --------   ";
+            "   --------   \n";
     private final Game currentGame;
     private ArrayList<ArrayList<String>> tempBoardState;
+    private ArrayList<String> tempInHandState;
 
     public GameService() {
         this.currentGame = new Game();
         this.tempBoardState = (ArrayList<ArrayList<String>>) currentGame.getBoard().clone();
+        this.tempInHandState = new ArrayList<>();
     }
 
     public String joinGame() {
@@ -64,6 +66,7 @@ public class GameService {
         if (currentGame.getTotalPlayers() == MAX_PLAYERS) {
             distributeTiles();
             updateGameStatus();
+            updateTempGameState();
         }
         else updateGameStatus();
         return currentGame;
@@ -178,6 +181,7 @@ public class GameService {
     }
 
     public Game executeTurn (String command){
+        System.out.println("## Command entered by player: " + command + "\n");
         if(currentGame.getTotalPlayers() == MAX_PLAYERS) {
             Player player = currentGame.getPlayerByNumber(currentGame.getCurrentPlayer());
             if (command.equalsIgnoreCase("draw")) {
@@ -185,44 +189,39 @@ public class GameService {
                 player.setInHand(sortInHandTiles(player.getInHand()));
                 updateCurrentPlayerNo();
                 updateGameStatus();
-                tempBoardState = (ArrayList<ArrayList<String>>) currentGame.getBoard().clone();
+                updateTempGameState();
             }
             else if (command.toLowerCase().startsWith("play")) {
                 ArrayList<ArrayList<String>> board = currentGame.getBoard();
                 String[] commandTiles = command.split(" ", 2);
                 String[] tiles = commandTiles[1].split(" ");
                 if(player.isInitialTurn()) {
-                    if(getMeldScore(tiles) >= 30){
-                        ArrayList<String> melds = new ArrayList<>();
-                        for(String tile: tiles) {
-                            melds.add(tile);
-                            player.getInHand().remove(tile);
-                        }
-                        board.add(melds);
-                        player.setInitialTurn(false);
+                    int initialPoints = player.getInitial30points();
+                    initialPoints += getMeldScore(tiles);
+                    player.setInitial30points(initialPoints);
+                }
+                updateBoardAndInHandTiles(board, player, tiles);
+                updateGameStatus();
+            }
+            else if (command.equalsIgnoreCase("end")) {
+                if(player.isInitialTurn()) {
+                    if(player.getInitial30points() >= 30) {
+                        updateCurrentPlayerNo();
                         updateGameStatus();
+                        player.setInitialTurn(false);
+                        updateTempGameState();
                     }
                     else {
+                        returnGameToPreviousState();
                         currentGame.setStatus("You must score at least 30 in your initial turn \n" + addGameInfoAndInstructions());
                         System.out.println(currentGame.getStatus());
                     }
                 }
                 else {
-                    ArrayList<String> melds = new ArrayList<>();
-                    for(String tile: tiles) {
-                        melds.add(tile);
-                        player.getInHand().remove(tile);
-                    }
-                    board.add(melds);
-                    player.setInitialTurn(false);
+                    updateCurrentPlayerNo();
                     updateGameStatus();
+                    updateTempGameState();
                 }
-            }
-            else if (command.equalsIgnoreCase("end")) {
-                updateCurrentPlayerNo();
-                updateGameStatus();
-
-                tempBoardState = (ArrayList<ArrayList<String>>) currentGame.getBoard().clone();
             }
             else {
                 currentGame.setStatus("INVALID MOVE \n" + addGameInfoAndInstructions());
@@ -231,6 +230,25 @@ public class GameService {
         }
         else updateGameStatus();
         return currentGame;
+    }
+
+    private void returnGameToPreviousState() {
+        currentGame.setBoard((ArrayList<ArrayList<String>>) tempBoardState.clone());
+        currentGame.getPlayerByNumber(currentGame.getCurrentPlayer()).setInHand((ArrayList<String>) tempInHandState.clone());
+    }
+
+    private void updateTempGameState() {
+        tempBoardState = (ArrayList<ArrayList<String>>) currentGame.getBoard().clone();
+        tempInHandState = (ArrayList<String>) currentGame.getPlayerByNumber(currentGame.getCurrentPlayer()).getInHand().clone();
+    }
+
+    private void updateBoardAndInHandTiles(ArrayList<ArrayList<String>> board, Player player, String[] tiles) {
+        ArrayList<String> melds = new ArrayList<>();
+        for(String tile: tiles) {
+            melds.add(tile);
+            player.getInHand().remove(tile);
+        }
+        board.add(melds);
     }
 
     private int getMeldScore(String[] meld) {
