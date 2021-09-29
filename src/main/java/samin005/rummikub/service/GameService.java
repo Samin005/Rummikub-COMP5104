@@ -203,13 +203,19 @@ public class GameService {
                     ArrayList<ArrayList<String>> board = currentGame.getBoard();
                     String[] commandTiles = command.split(" ", 2);
                     String[] tiles = commandTiles[1].split(" ");
-                    if(player.isInitialTurn()) {
-                        int initialPoints = player.getInitial30points();
-                        initialPoints += getMeldScore(tiles);
-                        player.setInitial30points(initialPoints);
+                    if(existsInHand(player, tiles)) {
+                        if(isValidRun(tiles) || isValidSet(tiles)) {
+                            if (player.isInitialTurn()) {
+                                int initialPoints = player.getInitial30points();
+                                initialPoints += getMeldScore(tiles);
+                                player.setInitial30points(initialPoints);
+                            }
+                            updateBoardAndInHandTiles(board, player, tiles);
+                            updateGameStatus();
+                        }
+                        else printInvalidMove("INVALID! Not a valid meld.");
                     }
-                    updateBoardAndInHandTiles(board, player, tiles);
-                    updateGameStatus();
+                    else printInvalidMove("INVALID! Tiles does not exist in hand.");
                 }
                 else if (command.equalsIgnoreCase("end")) {
                     if(player.isInitialTurn()) {
@@ -219,13 +225,12 @@ public class GameService {
                             if(!currentGame.isGameOver()) {
                                 updateCurrentPlayerNo();
                             }
-                            updateTempGameState();
                             updateGameStatus();
+                            updateTempGameState();
                         }
                         else {
                             returnGameToPreviousState();
-                            currentGame.setStatus("You must score at least 30 in your initial turn \n" + addGameInfoAndInstructions());
-                            System.out.println(currentGame.getStatus());
+                            printInvalidMove("You must score at least 30 in your initial turn");
                         }
                     }
                     else {
@@ -233,19 +238,67 @@ public class GameService {
                         if(!currentGame.isGameOver()) {
                             updateCurrentPlayerNo();
                         }
-                        updateTempGameState();
                         updateGameStatus();
+                        updateTempGameState();
                     }
                 }
                 else {
-                    currentGame.setStatus("INVALID MOVE \n" + addGameInfoAndInstructions());
-                    System.out.println(currentGame.getStatus());
+                    printInvalidMove("INVALID MOVE ");
                 }
             }
             else updateGameStatus();
         }
         else updateGameStatus();
         return currentGame;
+    }
+
+    private boolean isValidRun(String[] tiles) {
+        if(tiles.length < 3) {
+            return false;
+        }
+        else {
+            boolean validRun = true;
+            String color = tiles[0].charAt(0) + "";
+            int number = Integer.parseInt(tiles[0].replace(color, ""));
+            for(int i=1; i<tiles.length; i++) {
+                if(!(tiles[i].charAt(0) + "").equals(color) || Integer.parseInt(tiles[i].replace(color, "")) != (number+i)) {
+                    validRun = false;
+                }
+            }
+            return validRun;
+        }
+    }
+
+    private boolean isValidSet(String[] tiles) {
+        if(tiles.length < 3) {
+            return false;
+        }
+        else {
+            boolean validSet = true;
+            String color = tiles[0].charAt(0) + "";
+            String number = tiles[0].replace(color, "");
+            for(int i=1; i<tiles.length; i++) {
+                if((tiles[i].charAt(0) + "").equals(color) || !tiles[i].replace(tiles[i].charAt(0) + "", "").equals(number)) {
+                    validSet = false;
+                }
+            }
+            return validSet;
+        }
+    }
+
+    public boolean existsInHand(Player player, String[] tiles) {
+        boolean exists = true;
+        for(String tile: tiles) {
+            if(!player.getInHand().toString().contains(tile)) {
+                exists = false;
+            }
+        }
+        return exists;
+    }
+
+    private void printInvalidMove(String reason) {
+        currentGame.setStatus(reason + "\n" + addGameInfoAndInstructions());
+        System.out.println(currentGame.getStatus());
     }
 
     private void checkWinner(Player player) {
