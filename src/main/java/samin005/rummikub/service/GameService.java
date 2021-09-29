@@ -75,7 +75,12 @@ public class GameService {
     private void updateGameStatus() {
         if(currentGame.getTotalPlayers() == MAX_PLAYERS) {
             if(currentGame.isGameOver()) {
-                String status = "Player " + currentGame.getCurrentPlayer() + " has won the game!";
+                updateFinalScores();
+                String status = "Player " + currentGame.getCurrentPlayer() + " has won the game!\n";
+                status += "Player scores:\n";
+                for(Player player: currentGame.getPlayerList()) {
+                    status += "Player " + player.getPlayerNo() + ": " + player.getScore() + "\n";
+                }
                 System.out.println(status);
                 currentGame.setStatus(status);
             }
@@ -326,6 +331,16 @@ public class GameService {
         board.add(melds);
     }
 
+    private void updateFinalScores() {
+        for(Player player:currentGame.getPlayerList()) {
+            int score = 0;
+            for(String tile: player.getInHand()) {
+                score -= getTileScore(tile);
+            }
+            player.setScore(score);
+        }
+    }
+
     private int getMeldScore(String[] meld) {
         int score = 0;
         for(String tile: meld) {
@@ -354,6 +369,11 @@ public class GameService {
     }
 
     public void drawSpecificTile(Player player, String tile) {
+        player.addTileInHand(tile);
+        currentGame.getTilesRemaining().remove(tile);
+        if(player.isInitialTurn()) {
+            player.setInitialTurn(false);
+        }
     }
 
     private void updateCurrentPlayerNo() {

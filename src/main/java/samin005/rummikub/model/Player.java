@@ -7,6 +7,7 @@ public class Player {
     private ArrayList<String> inHand = new ArrayList<>();
     private boolean isInitialTurn = true;
     private int initial30points = 0;
+    private int score = 0;
 
     public int getPlayerNo() {
         return playerNo;
@@ -42,5 +43,13 @@ public class Player {
 
     public void setInitial30points(int initial30points) {
         this.initial30points = initial30points;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }
