@@ -6,6 +6,7 @@ public class Game {
     private String status = "Waiting for players to join...";
     private int totalPlayers = 0;
     private int currentPlayer = 0;
+    private boolean isGameOver = false;
     private ArrayList<Player> playerList = new ArrayList<>();
     private ArrayList<String> tilesRemaining;
     private ArrayList<ArrayList<String>> board = new ArrayList<>();
@@ -64,5 +65,13 @@ public class Game {
 
     public void setBoard(ArrayList<ArrayList<String>> board) {
         this.board = board;
+    }
+
+    public boolean isGameOver() {
+        return isGameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        isGameOver = gameOver;
     }
 }

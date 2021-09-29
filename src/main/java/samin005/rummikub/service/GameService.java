@@ -74,9 +74,16 @@ public class GameService {
 
     private void updateGameStatus() {
         if(currentGame.getTotalPlayers() == MAX_PLAYERS) {
-            String status = addGameInfoAndInstructions();
-            System.out.println(status);
-            currentGame.setStatus(status);
+            if(currentGame.isGameOver()) {
+                String status = "Player " + currentGame.getCurrentPlayer() + " has won the game!";
+                System.out.println(status);
+                currentGame.setStatus(status);
+            }
+            else {
+                String status = addGameInfoAndInstructions();
+                System.out.println(status);
+                currentGame.setStatus(status);
+            }
         }
         else {
             if (currentGame.getTotalPlayers() == MAX_PLAYERS-1){
@@ -183,53 +190,68 @@ public class GameService {
     public Game executeTurn (String command){
         System.out.println("## Command entered by player: " + command + "\n");
         if(currentGame.getTotalPlayers() == MAX_PLAYERS) {
-            Player player = currentGame.getPlayerByNumber(currentGame.getCurrentPlayer());
-            if (command.equalsIgnoreCase("draw")) {
-                distributeTilesToPlayer(player.getPlayerNo());
-                player.setInHand(sortInHandTiles(player.getInHand()));
-                updateCurrentPlayerNo();
-                updateGameStatus();
-                updateTempGameState();
-            }
-            else if (command.toLowerCase().startsWith("play")) {
-                ArrayList<ArrayList<String>> board = currentGame.getBoard();
-                String[] commandTiles = command.split(" ", 2);
-                String[] tiles = commandTiles[1].split(" ");
-                if(player.isInitialTurn()) {
-                    int initialPoints = player.getInitial30points();
-                    initialPoints += getMeldScore(tiles);
-                    player.setInitial30points(initialPoints);
-                }
-                updateBoardAndInHandTiles(board, player, tiles);
-                updateGameStatus();
-            }
-            else if (command.equalsIgnoreCase("end")) {
-                if(player.isInitialTurn()) {
-                    if(player.getInitial30points() >= 30) {
-                        updateCurrentPlayerNo();
-                        updateGameStatus();
-                        player.setInitialTurn(false);
-                        updateTempGameState();
-                    }
-                    else {
-                        returnGameToPreviousState();
-                        currentGame.setStatus("You must score at least 30 in your initial turn \n" + addGameInfoAndInstructions());
-                        System.out.println(currentGame.getStatus());
-                    }
-                }
-                else {
+            if(!currentGame.isGameOver()) {
+                Player player = currentGame.getPlayerByNumber(currentGame.getCurrentPlayer());
+                if (command.equalsIgnoreCase("draw")) {
+                    distributeTilesToPlayer(player.getPlayerNo());
+                    player.setInHand(sortInHandTiles(player.getInHand()));
                     updateCurrentPlayerNo();
                     updateGameStatus();
                     updateTempGameState();
                 }
+                else if (command.toLowerCase().startsWith("play")) {
+                    ArrayList<ArrayList<String>> board = currentGame.getBoard();
+                    String[] commandTiles = command.split(" ", 2);
+                    String[] tiles = commandTiles[1].split(" ");
+                    if(player.isInitialTurn()) {
+                        int initialPoints = player.getInitial30points();
+                        initialPoints += getMeldScore(tiles);
+                        player.setInitial30points(initialPoints);
+                    }
+                    updateBoardAndInHandTiles(board, player, tiles);
+                    updateGameStatus();
+                }
+                else if (command.equalsIgnoreCase("end")) {
+                    if(player.isInitialTurn()) {
+                        if(player.getInitial30points() >= 30) {
+                            player.setInitialTurn(false);
+                            checkWinner(player);
+                            if(!currentGame.isGameOver()) {
+                                updateCurrentPlayerNo();
+                            }
+                            updateTempGameState();
+                            updateGameStatus();
+                        }
+                        else {
+                            returnGameToPreviousState();
+                            currentGame.setStatus("You must score at least 30 in your initial turn \n" + addGameInfoAndInstructions());
+                            System.out.println(currentGame.getStatus());
+                        }
+                    }
+                    else {
+                        checkWinner(player);
+                        if(!currentGame.isGameOver()) {
+                            updateCurrentPlayerNo();
+                        }
+                        updateTempGameState();
+                        updateGameStatus();
+                    }
+                }
+                else {
+                    currentGame.setStatus("INVALID MOVE \n" + addGameInfoAndInstructions());
+                    System.out.println(currentGame.getStatus());
+                }
             }
-            else {
-                currentGame.setStatus("INVALID MOVE \n" + addGameInfoAndInstructions());
-                System.out.println(currentGame.getStatus());
-            }
+            else updateGameStatus();
         }
         else updateGameStatus();
         return currentGame;
+    }
+
+    private void checkWinner(Player player) {
+        if(player.getInHand().size() == 0) {
+            currentGame.setGameOver(true);
+        }
     }
 
     private void returnGameToPreviousState() {
