@@ -21,6 +21,8 @@ public class GameService {
             "For example, if the board has: 1. {R10 R11 R12 R13}), the command 'break 1 at R11' would result in 1. {R10 R11} 2. {R12 R13}\n" +
             "-To add tile(s) in existing melds, input command: add <tile(s)> to <meld index> at head/tail\n" +
             "For example: if the board has: 1. {R10 R11} 2. {R12 R13}, the command 'add R8 R9 to 1 at head' would result in 1. {R8 R9 R10 R11} 2. {R12 R13}\n" +
+            "-To merge melds in board, input command: merge <meld index> with <meld index> at head/tail\n" +
+            "For example: if the board has: 1. {R10 R11} 2. {R12 R13}, the command 'merge 1 with 2 at head' would result in 1. {R10 R11 R12 R13}\n" +
             "   --------   \n";
     private final Game currentGame;
     private ArrayList<ArrayList<String>> tempBoardState;
@@ -237,7 +239,7 @@ public class GameService {
                             ArrayList<ArrayList<String>> board = currentGame.getBoard();
                             ArrayList<String> meldToBreak = board.get(meldIndex);
                             if (meldToBreak.contains(splitCommand[1])) {
-                                breakMeldAndUpdateBoard(meldToBreak, splitCommand[1]);
+                                breakMeldAndUpdateBoard(meldIndex, splitCommand[1]);
                                 updateGameStatus();
                             }
                             else printInvalidMove("INVALID COMMAND! Invalid tile in meld.");
@@ -259,6 +261,24 @@ public class GameService {
                             updateGameStatus();
                         }
                         else printInvalidMove("INVALID COMMAND!");
+                    }
+                    else printInvalidMove("INVALID COMMAND!");
+                }
+                else if (command.toLowerCase().startsWith("merge")) {
+                    String[] splitCommand = command.split(" with ", 2);
+                    String meldIndex1 = splitCommand[0].replace("merge ", "");
+                    String[] splitCommandEnd = splitCommand[1].split(" at ", 2);
+                    String meldIndex2 = splitCommandEnd[0];
+                    String position = splitCommandEnd[1].toLowerCase();
+                    if (isNumber(meldIndex1) && isNumber(meldIndex2) && (position.equals("head") || position.equals("tail"))) {
+                        int index1 = Integer.parseInt(meldIndex1);
+                        int index2 = Integer.parseInt(meldIndex2);
+                        ArrayList<ArrayList<String>> board = currentGame.getBoard();
+                        if (index1 <= board.size() && index2 <= board.size()){
+                            mergeMeldsInBoard(board, index1-1, index2-1, position);
+                            updateGameStatus();
+                        }
+                        else printInvalidMove("INVALID COMMAND! Meld indexes not in board.");
                     }
                     else printInvalidMove("INVALID COMMAND!");
                 }
@@ -306,6 +326,31 @@ public class GameService {
         }
         else updateGameStatus();
         return currentGame;
+    }
+
+    private void mergeMeldsInBoard(ArrayList<ArrayList<String>> board, int index1, int index2, String position) {
+        ArrayList<String> meld1 = (ArrayList<String>) board.get(index1).clone();
+        ArrayList<String> meld1ToDisplay = (ArrayList<String>) boardToDisplay.get(index1).clone();
+        ArrayList<String> meld2 = (ArrayList<String>) board.get(index2).clone();
+        ArrayList<String> meld2ToDisplay = (ArrayList<String>) boardToDisplay.get(index2).clone();
+        if (position.equals("tail")) {
+            meld1.addAll(meld2);
+            board.set(index1, meld1);
+            board.remove(meld2);
+
+            meld1ToDisplay.addAll(meld2ToDisplay);
+            boardToDisplay.set(index1, meld1ToDisplay);
+            boardToDisplay.remove(meld2ToDisplay);
+        }
+        else if (position.equals("head")) {
+            meld2.addAll(meld1);
+            board.set(index2, meld2);
+            board.remove(meld1);
+
+            meld2ToDisplay.addAll(meld1ToDisplay);
+            boardToDisplay.set(index2, meld2ToDisplay);
+            boardToDisplay.remove(meld1ToDisplay);
+        }
     }
 
     private void addTilesToExistingMeld(Player player, String[] tiles, int meldIndex, String position) {
@@ -379,14 +424,22 @@ public class GameService {
         }
     }
 
-    private void breakMeldAndUpdateBoard(ArrayList<String> meld, String tile) {
+    private void breakMeldAndUpdateBoard(int meldIndex, String tile) {
+        ArrayList<String> meld = currentGame.getBoard().get(meldIndex);
+        ArrayList<String> meldToDisplay = boardToDisplay.get(meldIndex);
         int tileIndex = meld.indexOf(tile);
         ArrayList<String> meld1 = new ArrayList<> (meld.subList(0, tileIndex+1));
         ArrayList<String> meld2 = new ArrayList<> (meld.subList(tileIndex+1, meld.size()));
+        ArrayList<String> meld1ToDisplay = new ArrayList<> (meldToDisplay.subList(0, tileIndex+1));
+        ArrayList<String> meld2ToDisplay = new ArrayList<> (meldToDisplay.subList(tileIndex+1, meldToDisplay.size()));
+
         currentGame.getBoard().remove(meld);
         currentGame.getBoard().add(meld1);
         currentGame.getBoard().add(meld2);
-        boardToDisplay = (ArrayList<ArrayList<String>>) currentGame.getBoard().clone();
+
+        boardToDisplay.remove(meldToDisplay);
+        boardToDisplay.add(meld1ToDisplay);
+        boardToDisplay.add(meld2ToDisplay);
     }
 
     private boolean isNumber(String numberString) {
@@ -405,13 +458,41 @@ public class GameService {
         else {
             boolean validRun = true;
             String color = tiles[0].charAt(0) + "";
-            int number = Integer.parseInt(tiles[0].replace(color, ""));
-            for(int i=1; i<tiles.length; i++) {
-                if(!(tiles[i].charAt(0) + "").equals(color) || Integer.parseInt(tiles[i].replace(color, "")) != (number+i)) {
-                    validRun = false;
+            if (isNumber(tiles[0].replace(color, ""))) {
+                int number = Integer.parseInt(tiles[0].replace(color, ""));
+                for(int i=1; i<tiles.length; i++) {
+                    if (isNumber(tiles[i].replace(color, ""))) {
+                        int tileNumber = Integer.parseInt(tiles[i].replace(color, ""));
+                        if(!(tiles[i].charAt(0) + "").equals(color)) {
+                            validRun = false;
+                        }
+                        else {
+                            if (tileNumber == 1) {
+                                if (Integer.parseInt(tiles[i-1].replace(color, "")) != 13) {
+                                    validRun = false;
+                                }
+                            }
+                            else if (tileNumber == 13) {
+                                if (tileNumber != (number+i)){
+                                    validRun = false;
+                                }
+                            }
+                            else {
+                                if (tileNumber != (number+i)%13){
+                                    validRun = false;
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        return false;
+                    }
                 }
+                return validRun;
             }
-            return validRun;
+            else {
+                return false;
+            }
         }
     }
 
