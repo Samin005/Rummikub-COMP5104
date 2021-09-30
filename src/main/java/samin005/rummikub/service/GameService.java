@@ -17,15 +17,21 @@ public class GameService {
     private final String GAME_INSTRUCTIONS = "-To draw a tile, input command: draw\n" +
             "-To play meld from hand, input command: play <tiles with spaces> (for example: play R1 R2 R3)\n" +
             "To end turn, input command: end\n" +
+            "-To break a meld in board, input command: break <meld index> at <tile in meld> (for example: break 2 at R7\n" +
+            "For example, if the board has: 1. {R10 R11 R12 R13}), the command 'break 1 at R11' would result in 1. {R10 R11} 2. {R12 R13}\n" +
+            "-To add tile(s) in existing melds, input command: add <tile(s)> to <meld index> at head/tail\n" +
+            "For example: if the board has: 1. {R10 R11} 2. {R12 R13}, the command 'add R8 R9 to 1 at head' would result in 1. {R8 R9 R10 R11} 2. {R12 R13}\n" +
             "   --------   \n";
     private final Game currentGame;
     private ArrayList<ArrayList<String>> tempBoardState;
     private ArrayList<String> tempInHandState;
+    private ArrayList<ArrayList<String>> boardToDisplay;
 
     public GameService() {
         this.currentGame = new Game();
         this.tempBoardState = (ArrayList<ArrayList<String>>) currentGame.getBoard().clone();
         this.tempInHandState = new ArrayList<>();
+        boardToDisplay = new ArrayList<>();
     }
 
     public String joinGame() {
@@ -100,26 +106,22 @@ public class GameService {
         }
     }
 
-    private String boardInDisplay() {
+    private String getBoardToDisplay() {
         String result = "\n";
-        ArrayList<ArrayList<String>> board = currentGame.getBoard();
-        for(int i=0; i < board.size(); i++) {
-            String temp = board.get(i).toString();
-            temp = temp.replace("[", "{");
-            temp = temp.replace("]", "}");
-            temp = temp.replaceAll(",", "");
-            result += (i+1) + ". ";
-            if(i >= tempBoardState.size()) {
-                result += "*" + temp + "\n";
+        for(int i=0; i < boardToDisplay.size(); i++) {
+            result += (i+1) + ". { ";
+            ArrayList<String> meld = boardToDisplay.get(i);
+            for (String tile: meld) {
+                result += tile + " ";
             }
-            else result += temp + "\n";
+            result += "}\n";
         }
         return result;
     }
 
     private String addGameInfoAndInstructions() {
         String status = "Player " + currentGame.getCurrentPlayer() + "'s turn.\n";
-        status += "board: " + boardInDisplay() + "\n";
+        status += "board: " + getBoardToDisplay() + "\n";
         status += "Player " + currentGame.getCurrentPlayer() + "'s tiles: " + currentGame.getPlayerByNumber(currentGame.getCurrentPlayer()).getInHand().toString() + "\n";
         status += "Instructions: \n";
         status += GAME_INSTRUCTIONS;
@@ -222,6 +224,44 @@ public class GameService {
                     }
                     else printInvalidMove("INVALID! Tiles does not exist in hand.");
                 }
+                else if (command.toLowerCase().startsWith("break")) {
+                    if (command.contains(" at ")) {
+                        String[] splitCommand = command.split(" at ", 2);
+                        String meldIndexString;
+                        if (splitCommand[0].contains("break ")) {
+                            meldIndexString = splitCommand[0].replace("break ", "");
+                        }
+                        else meldIndexString = splitCommand[0].replace("break", "");
+                        if (isNumber(meldIndexString)) {
+                            int meldIndex = Integer.parseInt(meldIndexString)-1;
+                            ArrayList<ArrayList<String>> board = currentGame.getBoard();
+                            ArrayList<String> meldToBreak = board.get(meldIndex);
+                            if (meldToBreak.contains(splitCommand[1])) {
+                                breakMeldAndUpdateBoard(meldToBreak, splitCommand[1]);
+                                updateGameStatus();
+                            }
+                            else printInvalidMove("INVALID COMMAND! Invalid tile in meld.");
+                        }
+                        else printInvalidMove("INVALID COMMAND! Invalid meld index.");
+                    }
+                    else printInvalidMove("INVALID COMMAND!");
+                }
+                else if (command.toLowerCase().startsWith("add")) {
+                    if (command.contains(" to ")) {
+                        String[] splitCommand = command.split(" to ", 2);
+                        String tilesString = splitCommand[0].replace("add ", "");
+                        String[] tiles = tilesString.split(" ");
+                        String[] splitCommandEnd = splitCommand[1].split(" at ", 2);
+                        String meldIndex = splitCommandEnd[0];
+                        String position = splitCommandEnd[1].toLowerCase();
+                        if (existsInHand(player, tiles) && isNumber(meldIndex) && (position.equals("head") || position.equals("tail"))) {
+                            addTilesToExistingMeld(player, tiles, Integer.parseInt(meldIndex)-1, position);
+                            updateGameStatus();
+                        }
+                        else printInvalidMove("INVALID COMMAND!");
+                    }
+                    else printInvalidMove("INVALID COMMAND!");
+                }
                 else if (command.equalsIgnoreCase("end")) {
                     if(player.isInitialTurn()) {
                         if(player.getInitial30points() >= 30) {
@@ -230,6 +270,7 @@ public class GameService {
                             if(!currentGame.isGameOver()) {
                                 updateCurrentPlayerNo();
                             }
+                            player.setInHand(sortInHandTiles(player.getInHand()));
                             updateGameStatus();
                             updateTempGameState();
                         }
@@ -239,12 +280,22 @@ public class GameService {
                         }
                     }
                     else {
-                        checkWinner(player);
-                        if(!currentGame.isGameOver()) {
-                            updateCurrentPlayerNo();
+                        if(allValidMeldsInBoard()) {
+                            if(hasInHandChanged(player)) {
+                                checkWinner(player);
+                                if(!currentGame.isGameOver()) {
+                                    updateCurrentPlayerNo();
+                                }
+                                player.setInHand(sortInHandTiles(player.getInHand()));
+                                updateGameStatus();
+                                updateTempGameState();
+                            }
+                            else printInvalidMove("You must draw or play tiles from your hand to end turn.");
                         }
-                        updateGameStatus();
-                        updateTempGameState();
+                        else {
+                            returnGameToPreviousState();
+                            printInvalidMove("All melds were not valid! Returned board to previous state.");
+                        }
                     }
                 }
                 else {
@@ -255,6 +306,96 @@ public class GameService {
         }
         else updateGameStatus();
         return currentGame;
+    }
+
+    private void addTilesToExistingMeld(Player player, String[] tiles, int meldIndex, String position) {
+        ArrayList<ArrayList<String>> board = currentGame.getBoard();
+        if (position.equals("tail")) {
+            ArrayList<String> meld = (ArrayList<String>) board.get(meldIndex).clone();
+            ArrayList<String> meldToDisplay = (ArrayList<String>) boardToDisplay.get(meldIndex).clone();
+            String reusedTile = meldToDisplay.get(meldToDisplay.size()-1);
+            reusedTile = "!" + reusedTile;
+            meldToDisplay.remove(meldToDisplay.size()-1);
+            meldToDisplay.add(boardToDisplay.get(meldIndex).size()-1, reusedTile);
+            for(String tile: tiles) {
+                meld.add(tile);
+                meldToDisplay.add("*" + tile);
+                player.getInHand().remove(tile);
+            }
+            board.remove(meldIndex);
+            board.add(meldIndex, meld);
+
+            boardToDisplay.remove(meldIndex);
+            boardToDisplay.add(meldIndex, meldToDisplay);
+        }
+        else if (position.equals("head")) {
+            ArrayList<String> meld = new ArrayList<>();
+            ArrayList<String> meldToDisplay = new ArrayList<>();
+            for (String tile: tiles) {
+                meld.add(tile);
+                meldToDisplay.add("*" + tile);
+                player.getInHand().remove(tile);
+            }
+            meld.addAll(board.get(meldIndex));
+
+            String reusedTile = boardToDisplay.get(meldIndex).get(0);
+            reusedTile = "!" + reusedTile;
+            boardToDisplay.get(meldIndex).remove(0);
+            boardToDisplay.get(meldIndex).add(0, reusedTile);
+
+            meldToDisplay.addAll(boardToDisplay.get(meldIndex));
+            board.remove(meldIndex);
+            board.add(meldIndex, meld);
+            boardToDisplay.remove(meldIndex);
+            boardToDisplay.add(meldIndex, meldToDisplay);
+        }
+    }
+
+    private boolean allValidMeldsInBoard() {
+        ArrayList<ArrayList<String>> board = currentGame.getBoard();
+        for(ArrayList<String> meld: board) {
+            String meldString = meld.toString().replaceAll(",", "");
+            meldString = meldString.replace("[", "");
+            meldString = meldString.replace("]", "");
+            String[] tiles = meldString.split(" ");
+            if (!isValidRun(tiles) && !isValidSet(tiles)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean hasInHandChanged(Player player) {
+        if (tempInHandState.size() != player.getInHand().size()) {
+            return true;
+        }
+        else {
+            for(int i=0; i<tempInHandState.size(); i++) {
+                if (!tempInHandState.get(i).equals(player.getInHand().get(i))) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    private void breakMeldAndUpdateBoard(ArrayList<String> meld, String tile) {
+        int tileIndex = meld.indexOf(tile);
+        ArrayList<String> meld1 = new ArrayList<> (meld.subList(0, tileIndex+1));
+        ArrayList<String> meld2 = new ArrayList<> (meld.subList(tileIndex+1, meld.size()));
+        currentGame.getBoard().remove(meld);
+        currentGame.getBoard().add(meld1);
+        currentGame.getBoard().add(meld2);
+        boardToDisplay = (ArrayList<ArrayList<String>>) currentGame.getBoard().clone();
+    }
+
+    private boolean isNumber(String numberString) {
+        try{
+            Integer.parseInt(numberString);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private boolean isValidRun(String[] tiles) {
@@ -293,8 +434,9 @@ public class GameService {
 
     public boolean existsInHand(Player player, String[] tiles) {
         boolean exists = true;
+        String inHadTiles = player.getInHand().clone().toString();
         for(String tile: tiles) {
-            if(!player.getInHand().toString().contains(tile)) {
+            if(!inHadTiles.contains(tile)) {
                 exists = false;
             }
         }
@@ -315,20 +457,25 @@ public class GameService {
     private void returnGameToPreviousState() {
         currentGame.setBoard((ArrayList<ArrayList<String>>) tempBoardState.clone());
         currentGame.getPlayerByNumber(currentGame.getCurrentPlayer()).setInHand((ArrayList<String>) tempInHandState.clone());
+        boardToDisplay = (ArrayList<ArrayList<String>>) tempBoardState.clone();
     }
 
     private void updateTempGameState() {
         tempBoardState = (ArrayList<ArrayList<String>>) currentGame.getBoard().clone();
         tempInHandState = (ArrayList<String>) currentGame.getPlayerByNumber(currentGame.getCurrentPlayer()).getInHand().clone();
+        boardToDisplay = (ArrayList<ArrayList<String>>) tempBoardState.clone();
     }
 
     private void updateBoardAndInHandTiles(ArrayList<ArrayList<String>> board, Player player, String[] tiles) {
         ArrayList<String> melds = new ArrayList<>();
+        ArrayList<String> meldsToDisplayInBoard = new ArrayList<>();
         for(String tile: tiles) {
             melds.add(tile);
             player.getInHand().remove(tile);
+            meldsToDisplayInBoard.add("*" + tile);
         }
         board.add(melds);
+        boardToDisplay.add(meldsToDisplayInBoard);
     }
 
     private void updateFinalScores() {
@@ -374,6 +521,7 @@ public class GameService {
         if(player.isInitialTurn()) {
             player.setInitialTurn(false);
         }
+        player.setInHand(sortInHandTiles(player.getInHand()));
     }
 
     private void updateCurrentPlayerNo() {
