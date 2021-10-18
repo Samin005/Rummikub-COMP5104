@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import samin005.rummikub.model.Game;
 import samin005.rummikub.service.GameService;
 
+@CrossOrigin("${frontend.url}")
 @RestController
 @RequestMapping("/game")
 public class GameController {
@@ -22,10 +23,8 @@ public class GameController {
     }
 
     @PostMapping("/join")
-    public String joinGame() {
-        String response = gameService.joinGame();
-        System.out.println(response);
-        return response;
+    public Game joinGame() {
+        return gameService.joinGame();
     }
 
     @GetMapping("/get")
@@ -41,6 +40,12 @@ public class GameController {
     @PostMapping("/play")
     public Game play(@RequestBody String command) {
         return gameService.executeTurn(command);
+    }
+
+    @PostMapping("/reset")
+    public Game resetGame() {
+        gameService.resetGame();
+        return gameService.getCurrentGame();
     }
 }
 

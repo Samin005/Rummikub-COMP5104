@@ -24,19 +24,16 @@ public class GameService {
             "-To merge melds in board, input command: merge <meld index> with <meld index> at head/tail\n" +
             "For example: if the board has: 1. {R10 R11} 2. {R12 R13}, the command 'merge 1 with 2 at head' would result in 1. {R10 R11 R12 R13}\n" +
             "   --------   \n";
-    private final Game currentGame;
+    private Game currentGame;
     private ArrayList<ArrayList<String>> tempBoardState;
     private ArrayList<String> tempInHandState;
     private ArrayList<ArrayList<String>> boardToDisplay;
 
     public GameService() {
-        this.currentGame = new Game();
-        this.tempBoardState = (ArrayList<ArrayList<String>>) currentGame.getBoard().clone();
-        this.tempInHandState = new ArrayList<>();
-        boardToDisplay = new ArrayList<>();
+        resetGame();
     }
 
-    public String joinGame() {
+    public Game joinGame() {
         int totalPlayers = currentGame.getTotalPlayers();
         if(totalPlayers < MAX_PLAYERS) {
             Player player = new Player();
@@ -47,10 +44,14 @@ public class GameService {
                 currentGame.setCurrentPlayer(1);
             }
             currentGame.setTotalPlayers(totalPlayers + 1);
-            return "Player "+player.getPlayerNo()+" has joined the game.";
+            currentGame.setStatus("Player "+player.getPlayerNo()+" has joined the game.");
+            System.out.println(currentGame.getStatus());
+            return currentGame;
         }
         else {
-            return MAX_PLAYERS + " players are already playing, please wait for them to finish";
+            currentGame.setStatus(MAX_PLAYERS + " players are already playing, please wait for them to finish");
+            System.out.println(currentGame.getStatus());
+            return currentGame;
         }
     }
 
@@ -611,5 +612,12 @@ public class GameService {
             currentGame.setCurrentPlayer(1);
         }
         else currentGame.setCurrentPlayer(currentPlayerNo + 1);
+    }
+
+    public void resetGame() {
+        this.currentGame = new Game();
+        this.tempBoardState = (ArrayList<ArrayList<String>>) currentGame.getBoard().clone();
+        this.tempInHandState = new ArrayList<>();
+        boardToDisplay = new ArrayList<>();
     }
 }
