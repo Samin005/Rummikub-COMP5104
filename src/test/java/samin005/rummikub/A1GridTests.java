@@ -5,6 +5,9 @@ import samin005.rummikub.model.Game;
 import samin005.rummikub.model.Player;
 import samin005.rummikub.service.GameService;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import static org.junit.Assert.*;
 
 public class A1GridTests {
@@ -38,13 +41,13 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // player 1 draws
         gameService.executeTurn("draw");
         // ensuring player 1 has 15 tiles and the remaining tiles are 61
         assertEquals(15, player1.getInHand().size());
-        assertEquals(61, currentGame.getTilesRemaining().size());
+        assertEquals(63, currentGame.getTilesRemaining().size());
         // ensuring board is empty
         assertEquals(0, currentGame.getBoard().size());
 
@@ -135,7 +138,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -179,7 +182,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -223,7 +226,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -267,7 +270,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -312,7 +315,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -371,7 +374,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -442,7 +445,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -502,7 +505,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -587,7 +590,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -660,7 +663,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -753,7 +756,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -858,7 +861,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -951,7 +954,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -1057,7 +1060,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -1164,7 +1167,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -1279,13 +1282,13 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // player 1 draws
         gameService.executeTurn("draw");
         // ensuring player 1 has 15 tiles and the remaining tiles are 61
         assertEquals(15, player1.getInHand().size());
-        assertEquals(61, currentGame.getTilesRemaining().size());
+        assertEquals(63, currentGame.getTilesRemaining().size());
         // ensuring board is empty
         assertEquals(0, currentGame.getBoard().size());
     }
@@ -1316,13 +1319,13 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // player 1 draws
         gameService.executeTurn("draw");
         // ensuring player 1 has 15 tiles and the remaining tiles are 61
         assertEquals(15, player1.getInHand().size());
-        assertEquals(61, currentGame.getTilesRemaining().size());
+        assertEquals(63, currentGame.getTilesRemaining().size());
         // ensuring board is empty
         assertEquals(0, currentGame.getBoard().size());
     }
@@ -1355,7 +1358,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -1363,7 +1366,7 @@ public class A1GridTests {
         gameService.drawSpecificTile(player1, "R2");
         // ensuring player 1 has 15 tiles and the remaining tiles are 61
         assertEquals(15, player1.getInHand().size());
-        assertEquals(61, currentGame.getTilesRemaining().size());
+        assertEquals(63, currentGame.getTilesRemaining().size());
         // ensuring board is empty
         assertEquals(0, currentGame.getBoard().size());
         // player 1 ends turn
@@ -1375,7 +1378,7 @@ public class A1GridTests {
         gameService.drawSpecificTile(player2, "G5");
         // ensuring player 2 has 15 tiles and the remaining tiles are 60
         assertEquals(15, player1.getInHand().size());
-        assertEquals(60, currentGame.getTilesRemaining().size());
+        assertEquals(62, currentGame.getTilesRemaining().size());
         // ensuring board is empty
         assertEquals(0, currentGame.getBoard().size());
         // player 2 ends turn
@@ -1500,7 +1503,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -1547,7 +1550,7 @@ public class A1GridTests {
         gameService.executeTurn("draw");
         // ensuring player 1 has 15 tiles and the remaining tiles are 61
         assertEquals(11, player1.getInHand().size());
-        assertEquals(61, currentGame.getTilesRemaining().size());
+        assertEquals(63, currentGame.getTilesRemaining().size());
         // board size should not change since last turn
         assertEquals(3, currentGame.getBoard().size());
 
@@ -1596,7 +1599,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -1643,7 +1646,7 @@ public class A1GridTests {
         gameService.executeTurn("draw");
         // ensuring player 1 has 15 tiles and the remaining tiles are 61
         assertEquals(11, player1.getInHand().size());
-        assertEquals(61, currentGame.getTilesRemaining().size());
+        assertEquals(63, currentGame.getTilesRemaining().size());
         // board size should not change since last turn
         assertEquals(3, currentGame.getBoard().size());
 
@@ -1692,7 +1695,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -1781,7 +1784,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -1870,7 +1873,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -1959,7 +1962,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -2063,7 +2066,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -2171,7 +2174,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -2261,7 +2264,7 @@ public class A1GridTests {
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
-        assertEquals(62, currentGame.getTilesRemaining().size());
+        assertEquals(64, currentGame.getTilesRemaining().size());
 
         // ensuring current player is player 1
         assertEquals(1, currentGame.getCurrentPlayer());
@@ -2339,7 +2342,7 @@ public class A1GridTests {
         gameService.executeTurn("draw");
         // ensuring player 3 has 15 tiles and the remaining tiles are 61
         assertEquals(15, player3.getInHand().size());
-        assertEquals(61, currentGame.getTilesRemaining().size());
+        assertEquals(63, currentGame.getTilesRemaining().size());
         // ensuring board is unchanged
         assertEquals(6, currentGame.getBoard().size());
 
@@ -2415,5 +2418,18 @@ public class A1GridTests {
         assertTrue(currentGame.getBoard().toString().contains("O3, R3, G3"));
         // player 1 ends turn
         gameService.executeTurn("end");
+    }
+
+    @Test
+    public void randomTests() {
+        ArrayList<String> a = new ArrayList<>();
+        a.add("R1");
+        a.add("B2");
+        a.add("*");
+        for(String b: a) {
+            if(b.length() != 1 && b.charAt(1) == '1') {
+                System.out.println(b);
+            }
+        }
     }
 }

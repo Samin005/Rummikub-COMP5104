@@ -12,7 +12,7 @@ import java.util.Collections;
 public class GameService {
 
     private final int MAX_PLAYERS = 3;
-    private final int TOTAL_TILES = 104;
+    private final int TOTAL_TILES = 106;
     private final int TILES_PER_PLAYER = 14;
     private final String GAME_INSTRUCTIONS = "-To draw a tile, input command: draw\n" +
             "-To play meld from hand, input command: play <tiles with spaces> (for example: play R1 R2 R3)\n" +
@@ -64,6 +64,9 @@ public class GameService {
                 tiles.add(color + i);
             }
         }
+        // adding 2 jokers
+        tiles.add("*");
+        tiles.add("*");
         return tiles;
     }
 
@@ -180,13 +183,17 @@ public class GameService {
             if (tile.startsWith("O"))
                 tempInHand.add(tile);
         }
+        for(String tile:inHand){
+            if (tile.startsWith("*"))
+                tempInHand.add(tile);
+        }
         return tempInHand;
     }
 
     private ArrayList<String> makeAllTiles2Digits(ArrayList<String> inHand) {
         for(int i=0; i<inHand.size(); i++) {
             String tile = inHand.get(i);
-            if(tile.length() < 3) {
+            if(tile.length() != 1 && tile.length() < 3) {
                 tile = tile.charAt(0) + "0" + tile.charAt(1);
                 inHand.set(i, tile);
             }
@@ -197,7 +204,7 @@ public class GameService {
     private ArrayList<String> removeAddedDigits(ArrayList<String> inHand) {
         for(int i=0; i<inHand.size(); i++) {
             String tile = inHand.get(i);
-            if(tile.charAt(1) == '0') {
+            if(tile.length() != 1 && tile.charAt(1) == '0') {
                 tile = "" + tile.charAt(0) + tile.charAt(2);
                 inHand.set(i, tile);
             }
@@ -590,12 +597,17 @@ public class GameService {
 
     private int getTileScore(String tile) {
         int score;
-        String[] tileSeparated = tile.split("", 2);
-        int tileNumber = Integer.parseInt(tileSeparated[1]);
-        if(tileNumber >= 10){
-            score = 10;
+        if (tile.equals("*")) {
+            score = 30;
         }
-        else score = tileNumber;
+        else {
+            String[] tileSeparated = tile.split("", 2);
+            int tileNumber = Integer.parseInt(tileSeparated[1]);
+            if(tileNumber >= 10){
+                score = 10;
+            }
+            else score = tileNumber;
+        }
         return score;
     }
 
