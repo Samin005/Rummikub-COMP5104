@@ -134,17 +134,25 @@ public class GameService {
     private void distributeTiles() {
         for(Player player : currentGame.getPlayerList()) {
             while(player.getInHand().size() < TILES_PER_PLAYER)
-                distributeTilesToPlayer(player.getPlayerNo());
+                distributeTileToPlayer(player.getPlayerNo());
             player.setInHand(sortInHandTiles(player.getInHand()));
         }
 
     }
 
-    private void distributeTilesToPlayer(int playerNo) {
+    private void distributeTileToPlayer(int playerNo) {
         Player player = currentGame.getPlayerByNumber(playerNo);
         int randomIndex = getRandomNumber(0, currentGame.getTilesRemaining().size());
         player.addTileInHand(currentGame.getTilesRemaining().get(randomIndex));
         currentGame.getTilesRemaining().remove(randomIndex);
+    }
+
+    private void draw3TilesPenalty(Player player) {
+        int playerNo = player.getPlayerNo();
+        for(int i=1; i<=3; i++) {
+            distributeTileToPlayer(playerNo);
+        }
+        player.setInHand(sortInHandTiles(player.getInHand()));
     }
 
     private int getRandomNumber(int min, int max) {
@@ -203,7 +211,7 @@ public class GameService {
             if(!currentGame.isGameOver()) {
                 Player player = currentGame.getPlayerByNumber(currentGame.getCurrentPlayer());
                 if (command.equalsIgnoreCase("draw")) {
-                    distributeTilesToPlayer(player.getPlayerNo());
+                    distributeTileToPlayer(player.getPlayerNo());
                     player.setInHand(sortInHandTiles(player.getInHand()));
                     updateCurrentPlayerNo();
                     updateGameStatus();
@@ -297,7 +305,8 @@ public class GameService {
                         }
                         else {
                             returnGameToPreviousState();
-                            printInvalidMove("You must score at least 30 in your initial turn");
+                            draw3TilesPenalty(player);
+                            printInvalidMove("INVALID! You must score at least 30 in your initial turn.\nYou have drawn 3 tiles as a penalty!");
                         }
                     }
                     else {
@@ -315,7 +324,8 @@ public class GameService {
                         }
                         else {
                             returnGameToPreviousState();
-                            printInvalidMove("All melds were not valid! Returned board to previous state.");
+                            draw3TilesPenalty(player);
+                            printInvalidMove("All melds were not valid! Returned board to previous state.\nYou have drawn 3 tiles as a penalty!");
                         }
                     }
                 }
