@@ -5,9 +5,6 @@ import samin005.rummikub.model.Game;
 import samin005.rummikub.model.Player;
 import samin005.rummikub.service.GameService;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import static org.junit.Assert.*;
 
 public class A1GridTests {
@@ -1472,6 +1469,13 @@ public class A1GridTests {
         assertEquals(7, currentGame.getBoard().size());
         // player 2 ends turn
         gameService.executeTurn("end");
+
+        //player 1 scores -47
+        assertEquals(player1.getScore(), -47);
+        //player 2 scores 0
+        assertEquals(player2.getScore(), 0);
+        //player 3 scores -38
+        assertEquals(player3.getScore(), -38);
     }
 
     @Test
@@ -2418,18 +2422,5 @@ public class A1GridTests {
         assertTrue(currentGame.getBoard().toString().contains("O3, R3, G3"));
         // player 1 ends turn
         gameService.executeTurn("end");
-    }
-
-    @Test
-    public void randomTests() {
-        ArrayList<String> a = new ArrayList<>();
-        a.add("R1");
-        a.add("B2");
-        a.add("*");
-        for(String b: a) {
-            if(b.length() != 1 && b.charAt(1) == '1') {
-                System.out.println(b);
-            }
-        }
     }
 }
