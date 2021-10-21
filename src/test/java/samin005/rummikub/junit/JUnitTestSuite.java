@@ -1,4 +1,4 @@
-package samin005.rummikub;
+package samin005.rummikub.junit;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

@@ -1,4 +1,4 @@
-package samin005.rummikub;
+package samin005.rummikub.junit;
 
 import org.junit.Test;
 import samin005.rummikub.model.Game;
@@ -34,7 +34,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -42,7 +42,7 @@ public class A1GridTests {
 
         // player 1 draws
         gameService.executeTurn("draw");
-        // ensuring player 1 has 15 tiles and the remaining tiles are 61
+        // ensuring player 1 has 15 tiles and the remaining tiles are 63 
         assertEquals(15, player1.getInHand().size());
         assertEquals(63, currentGame.getTilesRemaining().size());
         // ensuring board is empty
@@ -131,7 +131,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -175,7 +175,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -219,7 +219,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -263,7 +263,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -308,7 +308,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -367,7 +367,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -438,7 +438,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -498,7 +498,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -583,7 +583,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -656,7 +656,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -749,7 +749,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -854,7 +854,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -947,7 +947,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -1053,7 +1053,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -1160,7 +1160,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -1275,7 +1275,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -1283,7 +1283,7 @@ public class A1GridTests {
 
         // player 1 draws
         gameService.executeTurn("draw");
-        // ensuring player 1 has 15 tiles and the remaining tiles are 61
+        // ensuring player 1 has 15 tiles and the remaining tiles are 63 
         assertEquals(15, player1.getInHand().size());
         assertEquals(63, currentGame.getTilesRemaining().size());
         // ensuring board is empty
@@ -1312,7 +1312,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -1320,7 +1320,7 @@ public class A1GridTests {
 
         // player 1 draws
         gameService.executeTurn("draw");
-        // ensuring player 1 has 15 tiles and the remaining tiles are 61
+        // ensuring player 1 has 15 tiles and the remaining tiles are 63 
         assertEquals(15, player1.getInHand().size());
         assertEquals(63, currentGame.getTilesRemaining().size());
         // ensuring board is empty
@@ -1351,7 +1351,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -1361,7 +1361,7 @@ public class A1GridTests {
         assertEquals(1, currentGame.getCurrentPlayer());
         // player 1 draws R2
         gameService.drawSpecificTile(player1, "R2");
-        // ensuring player 1 has 15 tiles and the remaining tiles are 61
+        // ensuring player 1 has 15 tiles and the remaining tiles are 63 
         assertEquals(15, player1.getInHand().size());
         assertEquals(63, currentGame.getTilesRemaining().size());
         // ensuring board is empty
@@ -1503,7 +1503,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -1552,7 +1552,7 @@ public class A1GridTests {
 
         // player 1 draws
         gameService.executeTurn("draw");
-        // ensuring player 1 has 15 tiles and the remaining tiles are 61
+        // ensuring player 1 has 15 tiles and the remaining tiles are 63 
         assertEquals(11, player1.getInHand().size());
         assertEquals(63, currentGame.getTilesRemaining().size());
         // board size should not change since last turn
@@ -1599,7 +1599,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -1648,7 +1648,7 @@ public class A1GridTests {
 
         // player 1 draws
         gameService.executeTurn("draw");
-        // ensuring player 1 has 15 tiles and the remaining tiles are 61
+        // ensuring player 1 has 15 tiles and the remaining tiles are 63 
         assertEquals(11, player1.getInHand().size());
         assertEquals(63, currentGame.getTilesRemaining().size());
         // board size should not change since last turn
@@ -1695,7 +1695,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -1784,7 +1784,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -1873,7 +1873,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -1962,7 +1962,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -2066,7 +2066,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -2174,7 +2174,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -2264,7 +2264,7 @@ public class A1GridTests {
         // distributing tiles randomly so every player has 14 tiles and no tile can be reused
         gameService.startGame();
 
-        // ensuring each player has 14 tiles and the remaining tiles are 62
+        // ensuring each player has 14 tiles and the remaining tiles are 64 
         assertEquals(14, player1.getInHand().size());
         assertEquals(14, player2.getInHand().size());
         assertEquals(14, player3.getInHand().size());
@@ -2344,7 +2344,7 @@ public class A1GridTests {
         assertEquals(3, currentGame.getCurrentPlayer());
         // player 3 draws
         gameService.executeTurn("draw");
-        // ensuring player 3 has 15 tiles and the remaining tiles are 61
+        // ensuring player 3 has 15 tiles and the remaining tiles are 63 
         assertEquals(15, player3.getInHand().size());
         assertEquals(63, currentGame.getTilesRemaining().size());
         // ensuring board is unchanged

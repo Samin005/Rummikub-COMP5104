@@ -158,6 +158,7 @@ public class GameService {
             distributeTileToPlayer(playerNo);
         }
         player.setInHand(sortInHandTiles(player.getInHand()));
+        updateCurrentPlayerNo();
     }
 
     private int getRandomNumber(int min, int max) {
@@ -329,12 +330,12 @@ public class GameService {
                                 updateGameStatus();
                                 updateTempGameState();
                             }
-                            else printInvalidMove("You must draw or play tiles from your hand to end turn.");
+                            else printInvalidMove("INVALID! You must draw or play tiles from your hand to end turn.");
                         }
                         else {
                             returnGameToPreviousState();
                             draw3TilesPenalty(player);
-                            printInvalidMove("All melds were not valid! Returned board to previous state.\nYou have drawn 3 tiles as a penalty!");
+                            printInvalidMove("INVALID! All melds were not valid! Returned board to previous state.\nYou have drawn 3 tiles as a penalty!");
                         }
                     }
                 }
