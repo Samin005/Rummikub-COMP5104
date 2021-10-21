@@ -66,7 +66,25 @@ Feature: Initial 30 without Jokers
     And player 1 ends turn
     Then game status should be "<status>"
     Examples:
-      | run            | set         | status  |
-      | R4 R5 R6 R7    | B2 O2 R2    | invalid |
-      | R4 R5 R6 R7    | B2 O2 R2 G2 | valid   |
-      | R4 R5 R6 R7 R8 | B2 O2 R2 G2 | valid   |
+      | run                            | set         | status  |
+      | R4 R5 R6 R7                    | B2 O2 R2    | invalid |
+      | R4 R5 R6 R7                    | B2 O2 R2 G2 | valid   |
+      | R6 R7 R8 R9                    | B2 O2 R2 G2 | valid   |
+      | R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 | B2 O2 R2 G2 | valid   |
+
+  Scenario Outline: Initial 30 with tiles not in hand
+    Given player 1 has "O2 O3 O4 O5 O6 O7 O8 O9 O10 O11 O12 O13 R13 B13"
+    And game starts
+    When player 1 plays "<meld>"
+    And player 1 ends turn
+    Then game status should be "<status>"
+    Examples:
+      | meld            | status  |
+      | R10 R11 R12    | invalid |
+      | R11 R12 R13    | invalid |
+      | O11 O12 O13 O1 | invalid |
+      | O11 O12 O13    | valid   |
+      | B11 G11 R11    | invalid |
+      | O11 G11 R11    | invalid |
+      | O13 R13 G13    | invalid |
+      | O13 R13 B13    | valid   |
