@@ -68,4 +68,24 @@ public class StepDefinitions {
             assertTrue(player.getInHand().size() <= 11);
         }
     }
+
+    @Then("game status without penalty should be {string}")
+    public void gameStatusWithoutPenaltyShouldBe(String status) {
+        // invalid move
+        if(currentGame.getStatus().startsWith("INVALID")) {
+            assertEquals(status, "invalid");
+            // each player added 1 meld in initial 30 to the board, the size should remain 3
+            assertEquals(3, currentGame.getBoard().size());
+            // player played an invalid move without the 3 tile penalty, so in hand tiles should remain 11
+            assertEquals(11, player.getInHand().size());
+        }
+        // valid move
+        else {
+            assertEquals(status, "valid");
+            // as melds were added to the board, the size should not remain 0
+            assertTrue(currentGame.getBoard().size() > 0);
+            // the player played melds and the minimum valid meld size is 3, so in hand tiles should be <= 14-3 = 11
+            assertTrue(player.getInHand().size() <= 11);
+        }
+    }
 }
