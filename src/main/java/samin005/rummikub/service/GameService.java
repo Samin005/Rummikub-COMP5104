@@ -93,7 +93,7 @@ public class GameService {
                 String status = "Player " + currentGame.getCurrentPlayer() + " has won the game!\n";
                 status += "Player scores:\n";
                 for(Player player: currentGame.getPlayerList()) {
-                    status += "Player " + player.getPlayerNo() + ": " + player.getScore() + "\n";
+                    status += "Player " + player.getPlayerNo() + ": " + player.getScore() + " (In Hand Tiles: " + player.getInHand() + ")\n";
                 }
                 System.out.println(status);
                 currentGame.setStatus(status);
@@ -330,7 +330,7 @@ public class GameService {
                                 updateGameStatus();
                                 updateTempGameState();
                             }
-                            else printInvalidMove("INVALID! You must draw or play tiles from your hand to end turn.");
+                            else printInvalidMove("INVALID! You must draw or play valid tiles from your hand to end turn.");
                         }
                         else {
                             returnGameToPreviousState();
@@ -479,52 +479,61 @@ public class GameService {
         else {
             boolean validRun = true;
             String firstTile = tiles[0];
-            if(!firstTile.equals(JOKER)) {
-                String firstTileColor = firstTile.charAt(0) + "";
-                String firstTileNumberString = firstTile.replace(firstTileColor, "");
-                if (isNumber(firstTileNumberString) || TILE_COLORS.contains(firstTileColor)) {
-                    int firstTileNumber = Integer.parseInt(firstTileNumberString);
-                    for(int i=1; i<tiles.length; i++) {
-                        String tile = tiles[i];
-                        if(!tile.equals(JOKER)) {
-                            String tileColor = tiles[i].charAt(0) + "";
-                            String tileNumberString = tile.replace(firstTileColor, "");
-                            if (isNumber(tileNumberString)) {
-                                int tileNumber = Integer.parseInt(tileNumberString);
-                                if(!(tileColor).equals(firstTileColor)) {
-                                    validRun = false;
-                                }
-                                else {
-                                    if (tileNumber == 1) {
-                                        String previousTile = tiles[i-1];
-                                        if(!previousTile.equals(JOKER)) {
-                                            if (Integer.parseInt(previousTile.replace(firstTileColor, "")) != 13) {
-                                                validRun = false;
-                                            }
-                                        }
-
-                                    }
-                                    else if (tileNumber == 13) {
-                                        if (tileNumber != (firstTileNumber+i)){
-                                            validRun = false;
-                                        }
-                                    }
-                                    else {
-                                        if (tileNumber != (firstTileNumber+i)%13){
-                                            validRun = false;
-                                        }
-                                    }
-                                }
+            int startingIndex = 1;
+            if(firstTile.equals(JOKER)) {
+                if(tiles[1].equals(JOKER)) {
+                    firstTile = tiles[2];
+                    startingIndex = 3;
+                }
+                else {
+                    firstTile = tiles[1];
+                    startingIndex = 2;
+                }
+            }
+            String firstTileColor = firstTile.charAt(0) + "";
+            String firstTileNumberString = firstTile.replace(firstTileColor, "");
+            if (isNumber(firstTileNumberString) || TILE_COLORS.contains(firstTileColor)) {
+                int firstTileNumber = Integer.parseInt(firstTileNumberString);
+                for(int i=startingIndex; i<tiles.length; i++) {
+                    String tile = tiles[i];
+                    if(!tile.equals(JOKER)) {
+                        String tileColor = tiles[i].charAt(0) + "";
+                        String tileNumberString = tile.replace(firstTileColor, "");
+                        if (isNumber(tileNumberString)) {
+                            int tileNumber = Integer.parseInt(tileNumberString);
+                            if(!(tileColor).equals(firstTileColor)) {
+                                validRun = false;
                             }
                             else {
-                                return false;
+                                if (tileNumber == 1) {
+                                    String previousTile = tiles[i-1];
+                                    if(!previousTile.equals(JOKER)) {
+                                        if (Integer.parseInt(previousTile.replace(firstTileColor, "")) != 13) {
+                                            validRun = false;
+                                        }
+                                    }
+
+                                }
+                                else if (tileNumber == 13) {
+                                    if (tileNumber != (firstTileNumber+(i-startingIndex+1))){
+                                        validRun = false;
+                                    }
+                                }
+                                else {
+                                    if (tileNumber != (firstTileNumber+(i-startingIndex+1))%13){
+                                        validRun = false;
+                                    }
+                                }
                             }
+                        }
+                        else {
+                            return false;
                         }
                     }
                 }
-                else {
-                    return false;
-                }
+            }
+            else {
+                return false;
             }
             return validRun;
         }
@@ -594,9 +603,9 @@ public class GameService {
 
     public boolean existsInHand(Player player, String[] tiles) {
         boolean exists = true;
-        String inHadTiles = player.getInHand().clone().toString();
+        ArrayList<String> inHandTiles = player.getInHand();
         for(String tile: tiles) {
-            if(!inHadTiles.contains(tile)) {
+            if(!inHandTiles.contains(tile)) {
                 exists = false;
             }
         }
@@ -686,7 +695,7 @@ public class GameService {
                 else if(i == meldLength-1){
                     String previousTile = meld[i-1];
                     if (previousTile.equals(JOKER)) {
-                        String previousPreviousTile = meld[i+2];
+                        String previousPreviousTile = meld[i-2];
                         String color = previousPreviousTile.charAt(0) + "";
                         String number = previousPreviousTile.replace(color, "");
                         if(isValidSet(meld)) {
