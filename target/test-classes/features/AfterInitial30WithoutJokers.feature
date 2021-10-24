@@ -59,11 +59,11 @@ Feature: After Initial 30 without Jokers
     And player 1 ends turn
     Then game status without penalty should be "<status>"
     Examples:
-      | run1                    | run2                    | status  |
-      | R1 R2                   | B1 B2                   | invalid |
-      | R1 R2 R3                | B1 B2 B3                | valid   |
-      | R1 R2 R3 R4 R5 R6 R7 R8 | B1 B2 B3                | valid   |
-      | R1 R2 R3 R4 R5 | B4 B5 B6 B7 B8 | valid   |
+      | run1                    | run2           | status  |
+      | R1 R2                   | B1 B2          | invalid |
+      | R1 R2 R3                | B1 B2 B3       | valid   |
+      | R1 R2 R3 R4 R5 R6 R7 R8 | B1 B2 B3       | valid   |
+      | R1 R2 R3 R4 R5          | B4 B5 B6 B7 B8 | valid   |
 
   Scenario Outline: After Initial 30 with multiple sets
     Given player 1 has "<set1>"
@@ -101,9 +101,9 @@ Feature: After Initial 30 without Jokers
     And player 1 ends turn
     Then game status without penalty should be "<status>"
     Examples:
-      | run                     | set         | status  |
-      | B1 B2                   | G7 B7       | invalid |
-      | R1 R2 R3                | G7 B7 R7    | valid   |
+      | run            | set         | status  |
+      | B1 B2          | G7 B7       | invalid |
+      | R1 R2 R3       | G7 B7 R7    | valid   |
       | B1 B2 B3 B4 B5 | G7 B7 R7 B7 | valid   |
 
   Scenario Outline: After Initial 30 with tiles not in hand
