@@ -26,7 +26,7 @@ Feature: Reorganize Board without Jokers
       | add R7 to 6 at tail | valid   |
       | add R7 to 6 at head | valid   |
       | add R7 to 4 at head | invalid |
-      | add R8 to 6 at tail | invalid |
+      | add R7 to 1 at tail | invalid |
 
   Scenario Outline: Break existing meld into two and add from hand
     Given player 1 executes "<breakCommand>"
