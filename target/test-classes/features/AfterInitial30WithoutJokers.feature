@@ -63,7 +63,7 @@ Feature: After Initial 30 without Jokers
       | R1 R2                   | B1 B2                   | invalid |
       | R1 R2 R3                | B1 B2 B3                | valid   |
       | R1 R2 R3 R4 R5 R6 R7 R8 | B1 B2 B3                | valid   |
-      | R1 R2 R3 R4 R5 R6 R7 R8 | B1 B2 B3 B4 B5 B6 B7 B8 | valid   |
+      | R1 R2 R3 R4 R5 | B4 B5 B6 B7 B8 | valid   |
 
   Scenario Outline: After Initial 30 with multiple sets
     Given player 1 has "<set1>"
@@ -104,7 +104,7 @@ Feature: After Initial 30 without Jokers
       | run                     | set         | status  |
       | B1 B2                   | G7 B7       | invalid |
       | R1 R2 R3                | G7 B7 R7    | valid   |
-      | B1 B2 B3 B4 B5 B6 B7 B8 | G7 B7 R7 B7 | valid   |
+      | B1 B2 B3 B4 B5 | G7 B7 R7 B7 | valid   |
 
   Scenario Outline: After Initial 30 with tiles not in hand
     Given player 1 has "O2 O3 O4 O5 O6 O7 O8 O9 O10 R3 B3"

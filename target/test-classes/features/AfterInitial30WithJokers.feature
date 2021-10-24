@@ -66,15 +66,15 @@ Feature: After Initial 30 with Jokers
     And player 1 ends turn
     Then game status without penalty should be "<status>"
     Examples:
-      | run1                    | run2                   | status  |
-      | * R2                    | B1 B2                  | invalid |
-      | R1 R2 R3                | B1 * B3                | valid   |
-      | * R2 R3 R4 R5 R6 R7 R8  | B1 B2 B3               | valid   |
-      | R1 R2 R3 R4 R5 R6 R7 R8 | B1 B2 B3 * B5 B6 B7 B8 | valid   |
-      | * R2                    | B1 *                   | invalid |
-      | R1 R2 *                 | B1 * B3                | valid   |
-      | * R2 R3 R4 R5 R6 R7 R8  | B1 B2 *                | valid   |
-      | R1 R2 R3 R4 R5 R6 R7 *  | B1 B2 B3 * B5 B6 B7 B8 | valid   |
+      | run1                   | run2             | status  |
+      | * R2                   | B1 B2            | invalid |
+      | R1 R2 R3               | B1 * B3          | valid   |
+      | * R2 R3 R4 R5 R6 R7 R8 | B1 B2 B3         | valid   |
+      | R1 R2 R3 R4 R5         | B1 B2 B3 * B5 B6 | valid   |
+      | * R2                   | B1 *             | invalid |
+      | R1 R2 *                | B1 * B3          | valid   |
+      | * R2 R3 R4 R5 R6 R7 R8 | B1 B2 *          | valid   |
+      | R3 R4 R5 R6 R7 *       | B2 B3 * B5 B6 | valid   |
 
   Scenario Outline: After Initial 30 with multiple sets including Jokers
     Given player 1 has "<set1>"
@@ -119,10 +119,10 @@ Feature: After Initial 30 with Jokers
       | run                     | set        | status  |
       | B1 B2                   | * B7       | invalid |
       | R1 R2 *                 | G7 B7 R7   | valid   |
-      | B1 B2 B3 B4 B5 B6 B7 B8 | G7 * R7 B7 | valid   |
+      | B3 B4 B5 B6 B7 B8 | G7 * R7 B7 | valid   |
       | * B2                    | * B7       | invalid |
       | R1 R2 *                 | * B7 R7    | valid   |
-      | B1 B2 B3 * B5 B6 B7 B8  | G7 * R7 B7 | valid   |
+      | B1 B2 B3 * B5 B6 B7  | G7 * R7 B7 | valid   |
 
   Scenario Outline: After Initial including Joker 30 with tiles not in hand
     Given player 1 has "* O3 O4 O5 O6 O7 O8 O9 O10 R3 B3"
