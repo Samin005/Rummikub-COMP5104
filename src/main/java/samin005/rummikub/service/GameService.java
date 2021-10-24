@@ -22,9 +22,11 @@ public class GameService {
             "-To break a meld in board, input command: break <meld index> at <tile in meld> (for example: break 2 at R7\n" +
             "For example, if the board has: 1. {R10 R11 R12 R13}), the command 'break 1 at R11' would result in 1. {R10 R11} 2. {R12 R13}\n" +
             "-To add tile(s) in existing melds, input command: add <tile(s)> to <meld index> at head/tail\n" +
-            "For example: if the board has: 1. {R10 R11} 2. {R12 R13}, the command 'add R8 R9 to 1 at head' would result in 1. {R8 R9 R10 R11} 2. {R12 R13}\n" +
+            "For example: if the board has: 1. {R10 R11 R12} 2. {O11 O12 O13}, the command 'add R8 R9 to 1 at head' would result in 1. {R8 R9 R10 R11 R12} 2. {O11 O12 O13}\n" +
             "-To merge melds in board, input command: merge <meld index> with <meld index> at head/tail\n" +
             "For example: if the board has: 1. {R10 R11} 2. {R12 R13}, the command 'merge 1 with 2 at head' would result in 1. {R10 R11 R12 R13}\n" +
+            "-To replace Joker in board: 'replace joker at <meld index> <joker index> with <tile>'" +
+            "For example: if the board has: 1. {R3 R4 * R6}, the command 'replace joker at 1 3 with R5' would result in 1. {R3 R4 R5 R6} 2. {*}\n" +
             "   --------   \n";
     private Game currentGame;
     private ArrayList<ArrayList<String>> tempBoardState;
@@ -258,8 +260,11 @@ public class GameService {
                             ArrayList<ArrayList<String>> board = currentGame.getBoard();
                             ArrayList<String> meldToBreak = board.get(meldIndex);
                             if (meldToBreak.contains(splitCommand[1])) {
-                                breakMeldAndUpdateBoard(meldIndex, splitCommand[1]);
-                                updateGameStatus();
+                                if(!meldToBreak.contains(JOKER)) {
+                                    breakMeldAndUpdateBoard(meldIndex, splitCommand[1]);
+                                    updateGameStatus();
+                                }
+                                else printInvalidMove("INVALID MOVE! You must replace the Joker with a tile from your hand before breaking.");
                             }
                             else printInvalidMove("INVALID COMMAND! Invalid tile in meld.");
                         }
@@ -273,11 +278,15 @@ public class GameService {
                         String tilesString = splitCommand[0].replace("add ", "");
                         String[] tiles = tilesString.split(" ");
                         String[] splitCommandEnd = splitCommand[1].split(" at ", 2);
-                        String meldIndex = splitCommandEnd[0];
+                        String meldIndexString = splitCommandEnd[0];
                         String position = splitCommandEnd[1].toLowerCase();
-                        if (existsInHand(player, tiles) && isNumber(meldIndex) && (position.equals("head") || position.equals("tail"))) {
-                            addTilesToExistingMeld(player, tiles, Integer.parseInt(meldIndex)-1, position);
-                            updateGameStatus();
+                        if (existsInHand(player, tiles) && isNumber(meldIndexString) && (position.equals("head") || position.equals("tail"))) {
+                            int meldIndex = Integer.parseInt(meldIndexString)-1;
+                            if(meldIndex < currentGame.getBoard().size()) {
+                                addTilesToExistingMeld(player, tiles, meldIndex, position);
+                                updateGameStatus();
+                            }
+                            else printInvalidMove("INVALID COMMAND! Meld index not in board.");
                         }
                         else printInvalidMove("INVALID COMMAND!");
                     }
@@ -290,12 +299,44 @@ public class GameService {
                     String meldIndex2 = splitCommandEnd[0];
                     String position = splitCommandEnd[1].toLowerCase();
                     if (isNumber(meldIndex1) && isNumber(meldIndex2) && (position.equals("head") || position.equals("tail"))) {
-                        int index1 = Integer.parseInt(meldIndex1);
-                        int index2 = Integer.parseInt(meldIndex2);
+                        int index1 = Integer.parseInt(meldIndex1)-1;
+                        int index2 = Integer.parseInt(meldIndex2)-1;
                         ArrayList<ArrayList<String>> board = currentGame.getBoard();
-                        if (index1 <= board.size() && index2 <= board.size()){
-                            mergeMeldsInBoard(board, index1-1, index2-1, position);
-                            updateGameStatus();
+                        if (index1 < board.size() && index2 < board.size()){
+                            if(!board.get(index1).contains(JOKER) && !board.get(index2).contains(JOKER)) {
+                                mergeMeldsInBoard(board, index1, index2, position);
+                                updateGameStatus();
+                            }
+                            else printInvalidMove("INVALID MOVE! You must replace the Joker with a tile from your hand before merging.");
+                        }
+                        else printInvalidMove("INVALID COMMAND! Meld indexes not in board.");
+                    }
+                    else printInvalidMove("INVALID COMMAND!");
+                }
+                else if (command.toLowerCase().startsWith("replace joker at")) {
+                    String commandString = command.replace("replace joker at", "").trim();
+                    String[] splitCommand = commandString.split(" with ", 2);
+                    String[] indexes = splitCommand[0].split(" ", 2);
+                    String meldIndexString = indexes[0];
+                    String jokerIndexString = indexes[1];
+                    String replacingTile = splitCommand[1];
+                    if (isNumber(meldIndexString) && isNumber(jokerIndexString)) {
+                        int meldIndex = Integer.parseInt(meldIndexString)-1;
+                        int jokerIndex = Integer.parseInt(jokerIndexString)-1;
+                        ArrayList<ArrayList<String>> board = currentGame.getBoard();
+                        if (meldIndex < board.size()){
+                            if(board.get(meldIndex).contains(JOKER)) {
+                                ArrayList<String> meld = board.get(meldIndex);
+                                if(meld.get(jokerIndex).equals(JOKER)) {
+                                    if(!replacingTile.contains(" ") && !(replacingTile.length() > 3) && existsInHand(player, replacingTile.split(" ", 1))) {
+                                        replaceJoker(board, meldIndex, jokerIndex, replacingTile);
+                                        updateGameStatus();
+                                    }
+                                    else printInvalidMove("INVALID MOVE! You must replace the Joker with a single valid tile from your hand.");
+                                }
+                                else printInvalidMove("INVALID MOVE! The selected joker index is not a Joker.");
+                            }
+                            else printInvalidMove("INVALID MOVE! The selected meld does not contain a Joker.");
                         }
                         else printInvalidMove("INVALID COMMAND! Meld indexes not in board.");
                     }
@@ -347,6 +388,22 @@ public class GameService {
         }
         else updateGameStatus();
         return currentGame;
+    }
+
+    private void replaceJoker(ArrayList<ArrayList<String>> board, int meldIndex, int jokerIndex, String replacingTile) {
+        ArrayList<String> meld = (ArrayList<String>) board.get(meldIndex).clone();
+        ArrayList<String> meldToDisplay = (ArrayList<String>) boardToDisplay.get(meldIndex).clone();
+
+        meld.set(jokerIndex, replacingTile);
+        meldToDisplay.set(jokerIndex, "*" + replacingTile);
+
+        board.set(meldIndex, meld);
+        boardToDisplay.set(meldIndex, meldToDisplay);
+
+        ArrayList<String> jokerMeld = new ArrayList<>();
+        jokerMeld.add(JOKER);
+        board.add(jokerMeld);
+        boardToDisplay.add(jokerMeld);
     }
 
     private void mergeMeldsInBoard(ArrayList<ArrayList<String>> board, int index1, int index2, String position) {
