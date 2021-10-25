@@ -17,28 +17,27 @@ Feature: Reorganize Board with Jokers
     And player 3 plays "O7 B7 G7"
     And player 3 ends turn
 
+  Scenario Outline: Add tile from hand to existing meld in board
+    Given  player 1 executes "<addCommand>"
+    When player 1 ends turn
+    Then add board game status should be "<status>"
+    Examples:
+      | addCommand            | status  |
+      | add * to 6 at tail    | valid   |
+      | add * to 6 at head    | valid   |
+      | add * R7 to 4 at head | invalid |
+      | add R7 * to 1 at tail | invalid |
+
   Scenario Outline: Break existing meld into two and add from hand
     Given player 1 executes "<breakCommand>"
     And  player 1 executes "<addCommand>"
     When player 1 ends turn
     Then break board game status should be "<status>"
     Examples:
-      | breakCommand  | addCommand             | status  |
+      | breakCommand  | addCommand            | status  |
       | break 3 at O5 | add * O4 to 6 at head | valid   |
       | break 3 at O5 | add O3 * to 6 at head | valid   |
-      | break 1 at O5 | add O3 * to 6 at head | invalid |
-      | break 3 at O6 | add * O4 to 6 at tail | invalid |
-
-  Scenario Outline: Add tile from hand to existing meld in board
-    Given  player 1 executes "<addCommand>"
-    When player 1 ends turn
-    Then add board game status should be "<status>"
-    Examples:
-      | addCommand          | status  |
-      | add * to 6 at tail | valid   |
-      | add * to 6 at head | valid   |
-      | add * R7 to 4 at head | invalid |
-      | add R7 * to 1 at tail | invalid |
+      | break 3 at B5 | add * O4 to 6 at tail | invalid |
 
   Scenario Outline: Merge existing melds into one and add from hand
     Given player 1 executes "<mergeCommand>"
@@ -46,8 +45,8 @@ Feature: Reorganize Board with Jokers
     When player 1 ends turn
     Then merge board game status should be "<status>"
     Examples:
-      | mergeCommand           | addCommand          | status  |
+      | mergeCommand           | addCommand            | status  |
       | merge 4 with 5 at tail | add * O6 to 4 at head | valid   |
-      | merge 4 with 5 at tail | add * to 4 at tail | valid   |
+      | merge 4 with 5 at tail | add * to 4 at tail    | valid   |
       | merge 4 with 6 at tail | add * O6 to 4 at head | invalid |
       | merge 2 with 5 at tail | add O6 * to 4 at tail | invalid |

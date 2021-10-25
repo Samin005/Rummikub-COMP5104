@@ -74,7 +74,7 @@ Feature: After Initial 30 with Jokers
       | * R2                   | B1 *             | invalid |
       | R1 R2 *                | B1 * B3          | valid   |
       | * R2 R3 R4 R5 R6 R7 R8 | B1 B2 *          | valid   |
-      | R3 R4 R5 R6 R7 *       | B2 B3 * B5 B6 | valid   |
+      | R3 R4 R5 R6 R7 *       | B2 B3 * B5 B6    | valid   |
 
   Scenario Outline: After Initial 30 with multiple sets including Jokers
     Given player 1 has "<set1>"
@@ -116,16 +116,16 @@ Feature: After Initial 30 with Jokers
     And player 1 ends turn
     Then game status without penalty should be "<status>"
     Examples:
-      | run                     | set        | status  |
-      | B1 B2                   | * B7       | invalid |
-      | R1 R2 *                 | G7 B7 R7   | valid   |
-      | B3 B4 B5 B6 B7 B8 | G7 * R7 B7 | valid   |
-      | * B2                    | * B7       | invalid |
-      | R1 R2 *                 | * B7 R7    | valid   |
-      | B1 B2 B3 * B5 B6 B7  | G7 * R7 B7 | valid   |
+      | run                 | set        | status  |
+      | B1 B2               | * B7       | invalid |
+      | R1 R2 *             | G7 B7 R7   | valid   |
+      | B3 B4 B5 B6 B7 B8   | G7 * R7 B7 | valid   |
+      | * B2                | * B7       | invalid |
+      | R1 R2 *             | * B7 R7    | valid   |
+      | B1 B2 B3 * B5 B6 B7 | G7 * R7 B7 | valid   |
 
   Scenario Outline: After Initial including Joker 30 with tiles not in hand
-    Given player 1 has "* O3 O4 O5 O6 O7 O8 O9 O10 R3 B3"
+    Given player 1 has "* * O3 O4 O5 O6 O8 O9 O10 R3 B3"
     And game starts
     And player 1 plays "R11 R12 R13"
     And player 1 ends turn
@@ -137,12 +137,11 @@ Feature: After Initial 30 with Jokers
     And player 1 ends turn
     Then game status without penalty should be "<status>"
     Examples:
-      | meld       | status  |
-      | * R4 R5    | invalid |
-      | O1 O2 *    | invalid |
-      | * O3 O4    | valid   |
-      | * R1 B1    | invalid |
-      | O2 * B2    | invalid |
-      | * R3 G3    | invalid |
-      | O3 R3 *    | valid   |
-      | O3 R3 * B3 | valid   |
+      | meld      | status  |
+      | * R4 R5   | invalid |
+      | * O2 O3   | invalid |
+      | O3 * *    | valid   |
+      | * R1 B1   | invalid |
+      | * R3 G3   | invalid |
+      | O3 R3 *   | valid   |
+      | * R3 * B3 | valid   |

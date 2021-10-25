@@ -14,7 +14,7 @@ Feature: Reusing Jokers already present in board
     And player 2 ends turn
     And player 3 plays "O12 R12 B12"
 
-  Scenario Outline: Proper reuse of Joker
+  Scenario Outline: Reusing Joker from board
     Given player 3 plays "R3 R4 * R6"
     And player 3 ends turn
     When player 1 executes "<firstCommand>"
@@ -28,7 +28,7 @@ Feature: Reusing Jokers already present in board
       | replace joker at 5 3 with O5 | add G5 G6 to 5 at tail | invalid |
       | replace joker at 5 3 with R5 | merge 3 with 6 at tail | invalid |
 
-  Scenario Outline: Proper reuse of both Jokers
+  Scenario Outline: Reusing both Jokers from board
     Given player 3 plays "* R3 R4 * R6"
     And player 3 ends turn
     When player 1 executes "<firstCommand>"

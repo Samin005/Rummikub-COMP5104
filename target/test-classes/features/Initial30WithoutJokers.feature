@@ -26,8 +26,7 @@ Feature: Initial 30 without Jokers
       | set             | status  |
       | O9 B9 G9        | invalid |
       | O10 B10 G10     | valid   |
-      | O12 B12 G12     | valid   |
-      | R11 O11 B11 G11 | valid   |
+      | R12 O12 B12 G12 | valid   |
 
   Scenario Outline: Initial 30 with multiple runs
     Given player 1 has "<run1>"
@@ -41,7 +40,7 @@ Feature: Initial 30 without Jokers
       | run1        | run2        | status  |
       | B1 B2 B3    | G4 G5 G6 G7 | invalid |
       | B1 B2 B3 B4 | G4 G5 G6 G7 | valid   |
-      | B6 B7 B8    | G6 G7 G8    | valid   |
+      | B11 B12 B13 | G11 G12 G13 | valid   |
 
   Scenario Outline: Initial 30 with multiple sets
     Given player 1 has "<set1>"
@@ -52,10 +51,10 @@ Feature: Initial 30 without Jokers
     And player 1 ends turn
     Then game status should be "<status>"
     Examples:
-      | set1     | set2        | status  |
-      | O3 R3 B3 | R5 G5 B5 O5 | invalid |
-      | O4 R4 B4 | R5 G5 B5 O5 | valid   |
-      | O7 R7 B7 | R6 G6 O6    | valid   |
+      | set1            | set2            | status  |
+      | O3 R3 B3        | R5 G5 B5 O5     | invalid |
+      | O4 R4 B4        | R5 G5 B5 O5     | valid   |
+      | O13 R13 B13 G13 | R12 G12 B12 O12 | valid   |
 
   Scenario Outline: Initial 30 with runs and sets
     Given player 1 has "<run>"
@@ -66,11 +65,10 @@ Feature: Initial 30 without Jokers
     And player 1 ends turn
     Then game status should be "<status>"
     Examples:
-      | run                            | set         | status  |
-      | R4 R5 R6 R7                    | B2 O2 R2    | invalid |
-      | R4 R5 R6 R7                    | B2 O2 R2 G2 | valid   |
-      | R6 R7 R8 R9                    | B2 O2 R2 G2 | valid   |
-      | R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 | B2 O2 R2 G2 | valid   |
+      | run                            | set             | status  |
+      | R4 R5 R6 R7                    | B2 O2 R2        | invalid |
+      | R4 R5 R6 R7                    | B2 O2 R2 G2     | valid   |
+      | R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 | B13 O13 R13 G13 | valid   |
 
   Scenario Outline: Initial 30 with tiles not in hand
     Given player 1 has "O2 O3 O4 O5 O6 O7 O8 O9 O10 O11 O12 O13 R13 B13"
@@ -79,7 +77,7 @@ Feature: Initial 30 without Jokers
     And player 1 ends turn
     Then game status should be "<status>"
     Examples:
-      | meld            | status  |
+      | meld           | status  |
       | R10 R11 R12    | invalid |
       | R11 R12 R13    | invalid |
       | O11 O12 O13 O1 | invalid |
