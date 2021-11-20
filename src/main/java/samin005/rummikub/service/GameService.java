@@ -161,6 +161,7 @@ public class GameService {
         }
         player.setInHand(sortInHandTiles(player.getInHand()));
         updateCurrentPlayerNo();
+        updateTempGameState();
     }
 
     private int getRandomNumber(int min, int max) {
@@ -223,11 +224,21 @@ public class GameService {
             if(!currentGame.isGameOver()) {
                 Player player = currentGame.getPlayerByNumber(currentGame.getCurrentPlayer());
                 if (command.equalsIgnoreCase("draw")) {
-                    distributeTileToPlayer(player.getPlayerNo());
-                    player.setInHand(sortInHandTiles(player.getInHand()));
-                    updateCurrentPlayerNo();
-                    updateGameStatus();
-                    updateTempGameState();
+                    if(allValidMeldsInBoard()) {
+                        if(!hasInHandChanged(player)) {
+                            distributeTileToPlayer(player.getPlayerNo());
+                            player.setInHand(sortInHandTiles(player.getInHand()));
+                            updateCurrentPlayerNo();
+                            updateGameStatus();
+                            updateTempGameState();
+                        }
+                        else printInvalidMove("INVALID! You cannot play and draw on the same turn.");
+                    }
+                    else {
+                        returnGameToPreviousState();
+                        draw3TilesPenalty(player);
+                        printInvalidMove("INVALID! All melds were not valid! Returned board to previous state. You have drawn 3 tiles as a penalty!");
+                    }
                 }
                 else if (command.toLowerCase().startsWith("play")) {
                     ArrayList<ArrayList<String>> board = currentGame.getBoard();
@@ -259,7 +270,7 @@ public class GameService {
                             int meldIndex = Integer.parseInt(meldIndexString)-1;
                             ArrayList<ArrayList<String>> board = currentGame.getBoard();
                             ArrayList<String> meldToBreak = board.get(meldIndex);
-                            if (meldToBreak.contains(splitCommand[1])) {
+                            if (meldToBreak.contains(splitCommand[1]) && meldToBreak.indexOf(splitCommand[1]) < meldToBreak.size()-1) {
                                 if(!meldToBreak.contains(JOKER)) {
                                     breakMeldAndUpdateBoard(meldIndex, splitCommand[1]);
                                     updateGameStatus();
