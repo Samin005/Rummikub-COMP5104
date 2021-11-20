@@ -298,7 +298,7 @@ public class GameService {
                     String[] splitCommandEnd = splitCommand[1].split(" at ", 2);
                     String meldIndex2 = splitCommandEnd[0];
                     String position = splitCommandEnd[1].toLowerCase();
-                    if (isNumber(meldIndex1) && isNumber(meldIndex2) && (position.equals("head") || position.equals("tail"))) {
+                    if (isNumber(meldIndex1) && isNumber(meldIndex2) && !meldIndex1.equals(meldIndex2) && (position.equals("head") || position.equals("tail"))) {
                         int index1 = Integer.parseInt(meldIndex1)-1;
                         int index2 = Integer.parseInt(meldIndex2)-1;
                         ArrayList<ArrayList<String>> board = currentGame.getBoard();
@@ -327,12 +327,12 @@ public class GameService {
                         if (meldIndex < board.size()){
                             if(board.get(meldIndex).contains(JOKER)) {
                                 ArrayList<String> meld = board.get(meldIndex);
-                                if(meld.get(jokerIndex).equals(JOKER)) {
+                                if(meld.get(jokerIndex).equals(JOKER) && !meld.toString().equals("[" + JOKER + "]")) {
                                     if(!replacingTile.contains(" ") && !(replacingTile.length() > 3) && existsInHand(player, replacingTile.split(" ", 1))) {
                                         replaceJoker(board, meldIndex, jokerIndex, replacingTile);
                                         updateGameStatus();
                                     }
-                                    else printInvalidMove("INVALID MOVE! You must replace the Joker with a single valid tile from your hand.");
+                                    else printInvalidMove("INVALID MOVE! You must replace the Joker with a single valid tile from your hand and then reuse it.");
                                 }
                                 else printInvalidMove("INVALID MOVE! The selected joker index is not a Joker.");
                             }
@@ -357,7 +357,7 @@ public class GameService {
                         else {
                             returnGameToPreviousState();
                             draw3TilesPenalty(player);
-                            printInvalidMove("INVALID! You must score at least 30 in your initial turn.\nYou have drawn 3 tiles as a penalty!");
+                            printInvalidMove("INVALID! You must score at least 30 in your initial turn. You have drawn 3 tiles as a penalty!");
                         }
                     }
                     else {
@@ -376,7 +376,7 @@ public class GameService {
                         else {
                             returnGameToPreviousState();
                             draw3TilesPenalty(player);
-                            printInvalidMove("INVALID! All melds were not valid! Returned board to previous state.\nYou have drawn 3 tiles as a penalty!");
+                            printInvalidMove("INVALID! All melds were not valid! Returned board to previous state. You have drawn 3 tiles as a penalty!");
                         }
                     }
                 }
@@ -670,7 +670,7 @@ public class GameService {
     }
 
     private void printInvalidMove(String reason) {
-        currentGame.setStatus(reason + "\n" + addGameInfoAndInstructions());
+        currentGame.setStatus(reason + " " + addGameInfoAndInstructions());
         System.out.println(currentGame.getStatus());
     }
 
