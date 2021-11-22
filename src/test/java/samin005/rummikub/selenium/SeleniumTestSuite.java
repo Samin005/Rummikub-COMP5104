@@ -19,7 +19,7 @@ public class SeleniumTestSuite {
     private GameService gameService;
     private final WebDriverLibrary webDriverLibrary = new WebDriverLibrary();
     private final long implicitWaitDriver = 2000;
-    private final int waitPerAction = 200;
+    private final int waitPerAction = 500;
     private final int waitAfterCompletion = 200;
 
     @Test
@@ -4647,6 +4647,1406 @@ public class SeleniumTestSuite {
         wait(waitAfterCompletion);
         // valid
         Assertions.assertEquals(7, player1.getInHand().size());
+
+        player1ChromeDriver.close();
+        player2ChromeDriver.close();
+        player3EdgeDriver.close();
+    }
+
+    @Test
+    public void row408() {
+        gameService.resetGame();
+        WebDriver player1ChromeDriver = webDriverLibrary.getChromeDriver();
+        player1ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player1ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+
+        gameService.placeInHand(player1, "R11 B11 B12 B13 G1 O1 O2 O3 O4 O5 O6 O7 O8 O11");
+
+        WebDriver player2ChromeDriver = webDriverLibrary.getChromeDriver();
+        player2ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player2ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnJoinGame")).click();
+
+        Player player2 = currentGame.getPlayerByNumber(2);
+
+        gameService.placeInHand(player2, "R4 R5 R6 R7 B1 B2 B3 B4 B5 B6 G4 G11 G12 G13");
+
+        WebDriver player3EdgeDriver = webDriverLibrary.getEdgeDriver();
+        player3EdgeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player3EdgeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player3EdgeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-13")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+        wait(waitPerAction);
+
+        player2ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-11")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-12")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-13")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-10")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-7")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-2")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnEndTurn")).click();
+        wait(waitPerAction);
+
+        player3EdgeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+        player1ChromeDriver.findElement(By.id("btnBreak")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld1-tile0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnMerge")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld0-tile0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld3-tile0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnAdd")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld3-tile1")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnBreak")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld2-tile2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnAdd")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld4-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnBreak")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld4-tile1")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnMerge")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld4-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld5-tile0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+
+        wait(waitAfterCompletion);
+        // valid
+        Assertions.assertEquals(8, player1.getInHand().size());
+
+        player1ChromeDriver.close();
+        player2ChromeDriver.close();
+        player3EdgeDriver.close();
+    }
+
+    @Test
+    public void row414() {
+        gameService.resetGame();
+        WebDriver player1ChromeDriver = webDriverLibrary.getChromeDriver();
+        player1ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player1ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+
+        gameService.placeInHand(player1, "R13 B1 B2 B3 B4 B5 B6 B7 B8 B10 B11 G10 G11 O11");
+
+        WebDriver player2ChromeDriver = webDriverLibrary.getChromeDriver();
+        player2ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player2ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnJoinGame")).click();
+
+        Player player2 = currentGame.getPlayerByNumber(2);
+
+        gameService.placeInHand(player2, "R7 R8 R9 R10 R11 R12 B12 G1 G2 G3 G4 G5 G12 O12");
+
+        WebDriver player3EdgeDriver = webDriverLibrary.getEdgeDriver();
+        player3EdgeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player3EdgeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player3EdgeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-13")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-10")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-11")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+        wait(waitPerAction);
+
+        player2ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-13")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-6")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-12")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-2")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-3")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-4")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-5")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnEndTurn")).click();
+        wait(waitPerAction);
+
+        player3EdgeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+        player1ChromeDriver.findElement(By.id("btnBreak")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld2-tile2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnBreak")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld4-tile0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnAdd")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-10")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-9")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld3-tile0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnAdd")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld4-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnBreak")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld4-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnMerge")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld4-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld5-tile0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+
+        wait(waitAfterCompletion);
+        // valid
+        Assertions.assertEquals(8, player1.getInHand().size());
+
+        player1ChromeDriver.close();
+        player2ChromeDriver.close();
+        player3EdgeDriver.close();
+    }
+
+    @Test
+    public void row420() {
+        gameService.resetGame();
+        WebDriver player1ChromeDriver = webDriverLibrary.getChromeDriver();
+        player1ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player1ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+
+        gameService.placeInHand(player1, "R3 R4 R5 R11 B1 B2 B3 B4 B4 B11 G4 G11 O5 O13");
+
+        WebDriver player2ChromeDriver = webDriverLibrary.getChromeDriver();
+        player2ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player2ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnJoinGame")).click();
+
+        Player player2 = currentGame.getPlayerByNumber(2);
+
+        gameService.placeInHand(player2, "R1 R2 R3 R4 B3 G3 G3 G4 G5 O1 O2 O3 O3 O4");
+
+        WebDriver player3EdgeDriver = webDriverLibrary.getEdgeDriver();
+        player3EdgeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player3EdgeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player3EdgeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-3")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-9")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-11")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-3")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+        wait(waitPerAction);
+
+        player2ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-9")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-10")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-11")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-13")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-2")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-9")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-4")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-5")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-3")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-4")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-5")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnEndTurn")).click();
+        wait(waitPerAction);
+
+        player3EdgeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+        player1ChromeDriver.findElement(By.id("btnBreak")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld3-tile2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnAdd")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld6-tile0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnAdd")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld5-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnBreak")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld1-tile1")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnBreak")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld3-tile1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnAdd")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld6-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnMerge")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld6-tile1")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld8-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnBreak")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld5-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnBreak")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld6-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnMerge")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld9-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld7-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnBreak")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld1-tile2")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnMerge")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld9-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld6-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnBreak")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld1-tile1")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnMerge")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld9-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld4-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnBreak")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld8-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnMerge")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld8-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld9-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnMerge")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld6-tile0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("meld8-tile0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+
+        wait(waitAfterCompletion);
+        // valid
+        Assertions.assertEquals(0, player1.getInHand().size());
+
+        player1ChromeDriver.close();
+        player2ChromeDriver.close();
+        player3EdgeDriver.close();
+    }
+
+    @Test
+    public void row427() {
+        gameService.resetGame();
+        WebDriver player1ChromeDriver = webDriverLibrary.getChromeDriver();
+        player1ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player1ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+
+        gameService.placeInHand(player1, "R1 R6 R8 R9 R11 R11 R12 B2 B2 G2 G11 G11 O11 *");
+
+        WebDriver player2ChromeDriver = webDriverLibrary.getChromeDriver();
+        player2ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player2ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnJoinGame")).click();
+
+        WebDriver player3EdgeDriver = webDriverLibrary.getEdgeDriver();
+        player3EdgeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player3EdgeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player3EdgeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-3")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-13")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-4")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-6")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+        wait(waitPerAction);
+
+        player2ChromeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+        player3EdgeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+
+        player1ChromeDriver.findElement(By.id("btnReplaceJoker")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld0-tile2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+
+        wait(waitAfterCompletion);
+        // invalid
+        Assertions.assertEquals(1, currentGame.getBoard().size());
+        Assertions.assertTrue(player1.getInHand().size() > 9);
+
+        player1ChromeDriver.close();
+        player2ChromeDriver.close();
+        player3EdgeDriver.close();
+    }
+
+    @Test
+    public void row433() {
+        gameService.resetGame();
+        WebDriver player1ChromeDriver = webDriverLibrary.getChromeDriver();
+        player1ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player1ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+
+        gameService.placeInHand(player1, "R1 R6 R8 R9 R11 R11 R12 B2 B2 G2 G11 G11 O11 *");
+
+        WebDriver player2ChromeDriver = webDriverLibrary.getChromeDriver();
+        player2ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player2ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnJoinGame")).click();
+
+        WebDriver player3EdgeDriver = webDriverLibrary.getEdgeDriver();
+        player3EdgeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player3EdgeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player3EdgeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-3")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-13")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-4")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-6")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+        wait(waitPerAction);
+
+        player2ChromeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+        player3EdgeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+
+        player1ChromeDriver.findElement(By.id("btnReplaceJoker")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld0-tile2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+
+        wait(waitAfterCompletion);
+        // invalid
+        Assertions.assertEquals(1, currentGame.getBoard().size());
+        Assertions.assertTrue(player1.getInHand().size() > 9);
+
+        player1ChromeDriver.close();
+        player2ChromeDriver.close();
+        player3EdgeDriver.close();
+    }
+
+    @Test
+    public void row440() {
+        gameService.resetGame();
+        WebDriver player1ChromeDriver = webDriverLibrary.getChromeDriver();
+        player1ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player1ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+
+        gameService.placeInHand(player1, "R1 R6 R8 R9 R11 R11 R12 B2 B2 G2 G11 G11 O11 *");
+
+        WebDriver player2ChromeDriver = webDriverLibrary.getChromeDriver();
+        player2ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player2ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnJoinGame")).click();
+
+        WebDriver player3EdgeDriver = webDriverLibrary.getEdgeDriver();
+        player3EdgeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player3EdgeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player3EdgeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-4")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-13")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-10")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-12")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+        wait(waitPerAction);
+
+        player2ChromeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+        player3EdgeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+
+        player1ChromeDriver.findElement(By.id("btnReplaceJoker")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld0-tile1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-6")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+
+        wait(waitAfterCompletion);
+        // invalid
+        Assertions.assertEquals(1, currentGame.getBoard().size());
+        Assertions.assertTrue(player1.getInHand().size() > 9);
+
+        player1ChromeDriver.close();
+        player2ChromeDriver.close();
+        player3EdgeDriver.close();
+    }
+
+    @Test
+    public void row446() {
+        gameService.resetGame();
+        WebDriver player1ChromeDriver = webDriverLibrary.getChromeDriver();
+        player1ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player1ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+
+        gameService.placeInHand(player1, "R1 R6 R8 R9 R11 R11 R12 B2 B2 G2 G11 G11 O11 *");
+
+        WebDriver player2ChromeDriver = webDriverLibrary.getChromeDriver();
+        player2ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player2ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnJoinGame")).click();
+
+        WebDriver player3EdgeDriver = webDriverLibrary.getEdgeDriver();
+        player3EdgeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player3EdgeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player3EdgeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-4")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-13")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-10")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-12")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+        wait(waitPerAction);
+
+        player2ChromeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+        player3EdgeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+
+        player1ChromeDriver.findElement(By.id("btnReplaceJoker")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld0-tile1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-8")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+
+        wait(waitAfterCompletion);
+        // invalid
+        Assertions.assertEquals(1, currentGame.getBoard().size());
+        Assertions.assertTrue(player1.getInHand().size() > 9);
+
+        player1ChromeDriver.close();
+        player2ChromeDriver.close();
+        player3EdgeDriver.close();
+    }
+
+    @Test
+    public void row453() {
+        gameService.resetGame();
+        WebDriver player1ChromeDriver = webDriverLibrary.getChromeDriver();
+        player1ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player1ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+
+        gameService.placeInHand(player1, "R1 R2 R3 R5 R6 R9 B2 B9 B11 G2 G11 O9 O11 *");
+
+        WebDriver player2ChromeDriver = webDriverLibrary.getChromeDriver();
+        player2ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player2ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnJoinGame")).click();
+
+        WebDriver player3EdgeDriver = webDriverLibrary.getEdgeDriver();
+        player3EdgeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player3EdgeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player3EdgeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-8")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-12")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-13")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+        wait(waitPerAction);
+
+        player2ChromeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+        player3EdgeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+
+        player1ChromeDriver.findElement(By.id("btnReplaceJoker")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld0-tile2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-6")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnAdd")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld2-tile0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnBreak")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld2-tile0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+
+        wait(waitAfterCompletion);
+        // invalid
+        Assertions.assertEquals(2, currentGame.getBoard().size());
+        Assertions.assertTrue(player1.getInHand().size() > 9);
+
+        player1ChromeDriver.close();
+        player2ChromeDriver.close();
+        player3EdgeDriver.close();
+    }
+
+    @Test
+    public void row460() {
+        gameService.resetGame();
+        WebDriver player1ChromeDriver = webDriverLibrary.getChromeDriver();
+        player1ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player1ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+
+        gameService.placeInHand(player1, "R1 R2 R3 R5 R6 R9 B2 B9 B11 G2 G11 O9 O11 *");
+
+        WebDriver player2ChromeDriver = webDriverLibrary.getChromeDriver();
+        player2ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player2ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnJoinGame")).click();
+
+        WebDriver player3EdgeDriver = webDriverLibrary.getEdgeDriver();
+        player3EdgeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player3EdgeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player3EdgeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-8")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-12")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-13")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-5")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-7")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-10")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+        wait(waitPerAction);
+
+        player2ChromeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+        player3EdgeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+
+        player1ChromeDriver.findElement(By.id("btnReplaceJoker")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld0-tile2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-7")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnMerge")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld1-tile0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld2-tile0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+
+        wait(waitAfterCompletion);
+        // invalid
+        Assertions.assertEquals(2, currentGame.getBoard().size());
+        Assertions.assertTrue(player1.getInHand().size() > 9);
+
+        player1ChromeDriver.close();
+        player2ChromeDriver.close();
+        player3EdgeDriver.close();
+    }
+
+    @Test
+    public void row467() {
+        gameService.resetGame();
+        WebDriver player1ChromeDriver = webDriverLibrary.getChromeDriver();
+        player1ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player1ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+
+        gameService.placeInHand(player1, "R1 R2 R3 R5 R6 R9 B2 B9 B11 G2 G11 O9 O11 *");
+
+        WebDriver player2ChromeDriver = webDriverLibrary.getChromeDriver();
+        player2ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player2ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnJoinGame")).click();
+
+        WebDriver player3EdgeDriver = webDriverLibrary.getEdgeDriver();
+        player3EdgeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player3EdgeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player3EdgeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-8")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-12")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-13")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+        wait(waitPerAction);
+
+        player2ChromeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+        player3EdgeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+
+        player1ChromeDriver.findElement(By.id("btnReplaceJoker")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld0-tile2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-6")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnAdd")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld2-tile0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+
+        wait(waitAfterCompletion);
+        // valid
+        Assertions.assertTrue(currentGame.getBoard().size() > 2);
+        Assertions.assertTrue(player1.getInHand().size() < 9);
+
+        player1ChromeDriver.close();
+        player2ChromeDriver.close();
+        player3EdgeDriver.close();
+    }
+
+    @Test
+    public void row474() {
+        gameService.resetGame();
+        WebDriver player1ChromeDriver = webDriverLibrary.getChromeDriver();
+        player1ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player1ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+
+        gameService.placeInHand(player1, "R1 R2 R3 R5 R6 R9 B2 B9 B11 G2 G11 O9 O11 *");
+
+        WebDriver player2ChromeDriver = webDriverLibrary.getChromeDriver();
+        player2ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player2ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnJoinGame")).click();
+
+        WebDriver player3EdgeDriver = webDriverLibrary.getEdgeDriver();
+        player3EdgeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player3EdgeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player3EdgeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-8")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-12")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-13")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-6")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-8")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+        wait(waitPerAction);
+
+        player2ChromeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+        player3EdgeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+
+        player1ChromeDriver.findElement(By.id("btnReplaceJoker")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld0-tile2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-6")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnAdd")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-4")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-5")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("meld2-tile0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+
+        wait(waitAfterCompletion);
+        // valid
+        Assertions.assertTrue(currentGame.getBoard().size() > 2);
+        Assertions.assertTrue(player1.getInHand().size() < 9);
+
+        player1ChromeDriver.close();
+        player2ChromeDriver.close();
+        player3EdgeDriver.close();
+    }
+
+    @Test
+    public void row482() {
+        gameService.resetGame();
+        WebDriver player1ChromeDriver = webDriverLibrary.getChromeDriver();
+        player1ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player1ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+
+        gameService.placeInHand(player1, "R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 B1 G1");
+
+        WebDriver player2ChromeDriver = webDriverLibrary.getChromeDriver();
+        player2ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player2ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnJoinGame")).click();
+        Player player2 = currentGame.getPlayerByNumber(2);
+
+        gameService.placeInHand(player2, "B1 B2 B3 B4 B5 B6 B7 B8 B9 B10 B11 O2 O3 O4");
+
+        WebDriver player3EdgeDriver = webDriverLibrary.getEdgeDriver();
+        player3EdgeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player3EdgeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player3EdgeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-3")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-4")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-5")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-6")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-7")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-8")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-9")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-10")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-11")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+        wait(waitPerAction);
+
+        player2ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-2")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-3")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-4")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-5")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-6")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-7")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-8")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-9")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-10")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnEndTurn")).click();
+        wait(waitPerAction);
+
+        player3EdgeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+
+        wait(waitAfterCompletion);
+        // valid
+        Assertions.assertEquals(0, player1.getInHand().size());
+        Assertions.assertEquals(0, player1.getScore());
+        Assertions.assertEquals(-9, player2.getScore());
+
+        player1ChromeDriver.close();
+        player2ChromeDriver.close();
+        player3EdgeDriver.close();
+    }
+
+    @Test
+    public void row488() {
+        gameService.resetGame();
+        WebDriver player1ChromeDriver = webDriverLibrary.getChromeDriver();
+        player1ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player1ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+
+        gameService.placeInHand(player1, "R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 B1 G1");
+
+        WebDriver player2ChromeDriver = webDriverLibrary.getChromeDriver();
+        player2ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player2ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnJoinGame")).click();
+        Player player2 = currentGame.getPlayerByNumber(2);
+
+        gameService.placeInHand(player2, "B1 B2 B3 B4 B5 B6 B7 B8 B9 B10 B11 O2 O3 *");
+
+        WebDriver player3EdgeDriver = webDriverLibrary.getEdgeDriver();
+        player3EdgeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player3EdgeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player3EdgeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-3")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-4")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-5")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-6")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-7")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-8")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-9")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-10")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-11")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+        wait(waitPerAction);
+
+        player2ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-2")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-3")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-4")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-5")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-6")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-7")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-8")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-9")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("inHand-10")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnEndTurn")).click();
+        wait(waitPerAction);
+
+        player3EdgeDriver.findElement(By.id("btnDraw")).click();
+        wait(waitPerAction);
+
+
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+
+        wait(waitAfterCompletion);
+        // valid
+        Assertions.assertEquals(0, player1.getInHand().size());
+        Assertions.assertEquals(0, player1.getScore());
+        Assertions.assertEquals(-35, player2.getScore());
+
+        player1ChromeDriver.close();
+        player2ChromeDriver.close();
+        player3EdgeDriver.close();
+    }
+
+    @Test
+    public void row494() {
+        gameService.resetGame();
+        WebDriver player1ChromeDriver = webDriverLibrary.getChromeDriver();
+        player1ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player1ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        Game currentGame = gameService.getCurrentGame();
+        Player player1 = currentGame.getPlayerByNumber(1);
+
+        gameService.placeInHand(player1, "R2 B2 G2 G3 G4 G5 G6 G7 O2 O4 O5 O6 O7 O8");
+
+        WebDriver player2ChromeDriver = webDriverLibrary.getChromeDriver();
+        player2ChromeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player2ChromeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player2ChromeDriver.findElement(By.id("btnJoinGame")).click();
+
+        WebDriver player3EdgeDriver = webDriverLibrary.getEdgeDriver();
+        player3EdgeDriver.manage().timeouts().implicitlyWait(implicitWaitDriver, TimeUnit.MILLISECONDS);
+        player3EdgeDriver.get("http://localhost:4200/");
+        wait(waitPerAction);
+        player3EdgeDriver.findElement(By.id("btnJoinGame")).click();
+        wait(waitPerAction);
+
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-8")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-3")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-4")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnPlay")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-0")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-1")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-2")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-3")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("inHand-4")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnDone")).click();
+        wait(waitPerAction);
+        player1ChromeDriver.findElement(By.id("btnEndTurn")).click();
+
+        wait(waitAfterCompletion);
+        // valid
+        Assertions.assertEquals(0, player1.getInHand().size());
+        Assertions.assertEquals(0, player1.getScore());
 
         player1ChromeDriver.close();
         player2ChromeDriver.close();
