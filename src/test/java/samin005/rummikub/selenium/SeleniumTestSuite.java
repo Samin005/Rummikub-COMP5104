@@ -19,8 +19,8 @@ public class SeleniumTestSuite {
     private GameService gameService;
     private final WebDriverLibrary webDriverLibrary = new WebDriverLibrary();
     private final long implicitWaitDriver = 2000;
-    private final int waitPerAction = 500;
-    private final int waitAfterCompletion = 200;
+    private final int waitPerAction = 2000;
+    private final int waitAfterCompletion = 10000;
 
     @Test
     public void row11() {

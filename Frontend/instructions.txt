@@ -1,0 +1,4 @@
+1. Make sure you have Node.js installed in your device.If not please visit here: https://nodejs.org/en/
+2. Install the package http-server with the command 'npm install http-server -g'
+3. Go to the Frontend directory of the project and use the command 'http-server -p 4200'
+4. Now open a browser and go to http://localhost:4200/ to play the game!
